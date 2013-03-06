@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <system.web>
+    <pages>
+      <controls>
+        <add assembly="Brew.Winforms" namespace="Brew.Webforms.Widgets" tagPrefix="brew" />
+      </controls>
+    </pages>
+  </system.web>
+</configuration>

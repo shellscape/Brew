@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>$id$</id>
+		<title>Brew</title>
+		<version>$version$</version>
+		<authors>$author$</authors>
+		<projectUrl>http://shellscape.org/#brew</projectUrl>
+		<iconUrl>http://shellscape.org/brew/nuget.png</iconUrl>
+		<licenseUrl></licenseUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<summary>Brew is an open source library of interface components for ASP.NET which utilitizes jQuery and jQuery UI.</summary>
+		<description>
+			Brew is an open source library of interface components for ASP.NET which utilitizes jQuery and jQuery UI.
+			To report issues with Brew, or to contribute and browse the source code, please visit http://github.com/shellscape/Brew.
+			Documentation can be found at http://shellscape.org/#brew and on the project Wiki at http://github.com/shellscape/Brew/wiki.
+			Brew requires the .NET Framework 4.5.
+		</description>
+		<releaseNotes>
+			<![CDATA[
+1.0
+	• Initial Release
+		]]>
+		</releaseNotes>
+		<dependencies>
+			<dependency id="jQuery" version="1.9.1" />
+			<dependency id="jQuery.UI.Combined" version="1.10.1" />
+			<dependency id="json2" />
+		</dependencies>
+		<tags>ASP.NET jQueryUI WebForms jQuery Plugins Controls Ajax Brew</tags>
+	</metadata>
+</package>
