@@ -16,17 +16,17 @@
 		<div style="display: inline-block; width: 200px; border-right: 2px solid #ccc;">
 			<h4>Interactions</h4>
 			<ul>
-				<li>Draggable</li>
-				<li>Droppable</li>
-				<li>Resizable</li>
-				<li>Selectable</li>
-				<li>Sortable</li>
+				<li><a href="draggable.aspx">Draggable</a></li>
+				<li><a href="droppable.aspx">Droppable</a></li>
+				<li><a href="resizable.aspx">Resizable</a></li>
+				<li><a href="selectable.aspx">Selectable</a></li>
+				<li><a href="sortable.aspx">Sortable</a></li>
 			</ul>
 
 			<h4>Widgets</h4>
 			<ul>
 				<li><a href="accordion.aspx">Accordion</a></li>
-				<li>Autocomplete</li>
+				<li><a href="autocomplete.aspx">Autocomplete</a></li>
 				<li><a href="button.aspx">Button</a></li>
 				<li>Datepicker</li>
 				<li>Dialog</li>
