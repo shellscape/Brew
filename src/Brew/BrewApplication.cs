@@ -17,20 +17,20 @@ namespace Brew {
 
 			ScriptManager.ScriptResourceMapping.AddDefinition("jquery",
 					new ScriptResourceDefinition {
-						Path = "~/Scripts/jquery-1.8.2.min.js",
-						DebugPath = "~/Scripts/jquery-1.8.2.js",
-						CdnPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js",
-						CdnDebugPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js",
+						Path = "~/Scripts/jquery-1.9.1.min.js",
+						DebugPath = "~/Scripts/jquery-1.9.1.js",
+						CdnPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js",
+						CdnDebugPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js",
 						CdnSupportsSecureConnection = true
 					}
 			);
 
 			ScriptManager.ScriptResourceMapping.AddDefinition("jquery-ui",
 					new ScriptResourceDefinition {
-						Path = "~/Scripts/jquery-ui-1.9.0.min.js",
-						DebugPath = "~/Scripts/jquery-ui-1.9.0.js",
-						CdnPath = "http://code.jquery.com/ui/1.9.0/jquery-ui.min.js",
-						CdnDebugPath = "http://code.jquery.com/ui/1.9.0/jquery-ui.js",
+						Path = "~/Scripts/jquery-ui-1.10.1.min.js",
+						DebugPath = "~/Scripts/jquery-ui-1.10.1.js",
+						CdnPath = "http://code.jquery.com/ui/1.10.1/jquery-ui.min.js",
+						CdnDebugPath = "http://code.jquery.com/ui/1.10.1/jquery-ui.js",
 						CdnSupportsSecureConnection = true
 					}
 			);
