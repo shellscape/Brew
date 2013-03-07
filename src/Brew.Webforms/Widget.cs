@@ -91,7 +91,7 @@ namespace Brew.Webforms {
 			var attributes = ParseOptions();
 
 			widget.Attributes.Add("name", this.Name);
-			widget.Attributes.Add("for", this.For);
+			widget.Attributes.Add("for", this.TargetControl.ClientID);
 
 			foreach (var pair in attributes) {
 				var value = pair.Value;
