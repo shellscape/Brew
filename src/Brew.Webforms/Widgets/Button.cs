@@ -17,7 +17,6 @@ namespace Brew.Webforms.Widgets {
 	/// Extend a TextBox with the jQuery UI Button http://api.jqueryui.com/button/
 	/// </summary>
 	/// <remarks>Click Events should be handled on the extended control, natively.</remarks>
-	[WidgetEvent("create")]
 	public class Button : Widget {
 
 		public Button() : base("button") { }

@@ -15,23 +15,37 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a WebControl or HtmlControl with jQuery UI Draggable http://jqueryui.com/demos/draggable/
 	/// </summary>
-	[TargetControlType(typeof(WebControl))]
-	[TargetControlType(typeof(HtmlControl))]
-	[WidgetEvent("create")]
-	[WidgetEvent("open")]
-	[WidgetEvent("close")]
-	public class Tooltip : Extender, IAutoPostBackWidget {
+	public class Tooltip : Widget {
 
 		public Tooltip() : base("tooltip") { }
 
-		#region Widget Options
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("create"),
+				new WidgetEvent("open"),
+				new WidgetEvent("close")
+			};
+		}
+
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "content", DefaultValue = null },
+				new WidgetOption { Name = "hide", DefaultValue = null },
+				new WidgetOption { Name = "items", DefaultValue = "[title]" },
+				new WidgetOption { Name = "position", DefaultValue = "{ my: \"left+15 center\", at: \"right center\", collision: \"flipfit\" }" },
+				new WidgetOption { Name = "show", DefaultValue = null },
+				new WidgetOption { Name = "tooltipClass", DefaultValue = null },
+				new WidgetOption { Name = "track", DefaultValue = false }
+			};
+		}
+
+		#region .    Options    .
 
 		/// <summary>
 		/// The content of the tooltip.
 		/// When changing this option, you likely need to also change the ItemsSelector Property.
 		/// Reference: http://api.jqueryui.com/tooltip/#option-content
 		/// </summary>
-		[WidgetOption("content", null)]
 		[Category("Behavior")]
 		[DefaultValue(null)]
 		[Description("The content of the tooltip. When changing this option, you likely need to also change the ItemsSelector Property.")]
@@ -43,7 +57,6 @@ namespace Brew.Webforms.Widgets {
 		/// If and how to animate the hiding of the tooltip..
 		/// Reference: http://api.jqueryui.com/tooltip/#option-hide
 		/// </summary>
-		[WidgetOption("hide", null)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Behavior")]
 		[DefaultValue(null)]
@@ -54,7 +67,6 @@ namespace Brew.Webforms.Widgets {
 		/// A selector indicating which items should show tooltips. Customize if you're using something other then the title attribute for the tooltip content, or if you need a different selector for event delegation.
 		/// Reference: http://api.jqueryui.com/tooltip/#option-items
 		/// </summary>
-		[WidgetOption("items", "[title]")]
 		[Category("Behavior")]
 		[DefaultValue(null)]
 		[Description("A selector indicating which items should show tooltips. Customize if you're using something other then the title attribute for the tooltip content, or if you need a different selector for event delegation.")]
@@ -64,7 +76,6 @@ namespace Brew.Webforms.Widgets {
 		/// CConfiguration for the Position utility. The "of" property defaults to the target element, but can also be overriden.
 		/// Reference: http://api.jqueryui.com/tooltip/#option-position
 		/// </summary>
-		[WidgetOption("position", "{ my: \"left+15 center\", at: \"right center\", collision: \"flipfit\" }", Eval = true)]
 		[TypeConverter(typeof(Brew.TypeConverters.JsonObjectConverter))]
 		[Category("Appearance")]
 		[DefaultValue("{}")]
@@ -75,7 +86,6 @@ namespace Brew.Webforms.Widgets {
 		/// If and how to animate the showing of the tooltip..
 		/// Reference: http://api.jqueryui.com/tooltip/#option-show
 		/// </summary>
-		[WidgetOption("show", null)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Behavior")]
 		[DefaultValue(null)]
@@ -86,7 +96,6 @@ namespace Brew.Webforms.Widgets {
 		/// A class to add to the widget, can be used to display various tooltip types, like warnings or errors.
 		/// Reference: http://api.jqueryui.com/tooltip/#option-tooltipClass
 		/// </summary>
-		[WidgetOption("tooltipClass", null)]
 		[Category("Appearance")]
 		[DefaultValue(null)]
 		[Description("A class to add to the widget, can be used to display various tooltip types, like warnings or errors.")]
@@ -96,7 +105,6 @@ namespace Brew.Webforms.Widgets {
 		/// Whether the tooltip should track (follow) the mouse.
 		/// Reference: http://api.jqueryui.com/spinner/#option-incremental
 		/// </summary>
-		[WidgetOption("track", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Whether the tooltip should track (follow) the mouse.")]

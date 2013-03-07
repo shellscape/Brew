@@ -16,24 +16,60 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a TextBox with jQuery UI Autocomplete http://api.jqueryui.com/autocomplete/
 	/// </summary>
-	[TargetControlType(typeof(TextBox))]
-	[WidgetEvent("create")]
-	[WidgetEvent("search")]
-	[WidgetEvent("open")]
-	[WidgetEvent("focus")]
-	[WidgetEvent("close")]
-	[WidgetEvent("response")]
-	public class Autocomplete : Extender {
+	public class Autocomplete : Widget {
+
+		private String _sourceUrl = null;
+		private String[] _source = null;
+		private List<AutocompleteItem> _sourceList = null;
 
 		public Autocomplete() : base("autocomplete") { }
 
-		#region Widget Options
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("create"),
+				new WidgetEvent("search"),
+				new WidgetEvent("open"),
+				new WidgetEvent("focus"),
+				new WidgetEvent("close"),
+				new WidgetEvent("response"),
+				new WidgetEvent("select"),
+				new WidgetEvent("change")
+			};
+		}
+
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "appendTo",  DefaultValue = "body" },
+				new WidgetOption { Name = "autoFocus",  DefaultValue = false },
+				new WidgetOption { Name = "delay",  DefaultValue = 300 },
+				new WidgetOption { Name = "minLength",  DefaultValue = 1 },
+				new WidgetOption { Name = "position", DefaultValue = "{}" },
+				new WidgetOption { Name = "source", DefaultValue = null, PropertyName = "_Source" }
+			};
+		}
+
+		/// <summary>
+		/// Triggered when an item is selected from the menu; ui.item refers to the selected item. The default action of select is to replace the text field's value with the value of the selected item. Canceling this event prevents the value from being updated, but does not prevent the menu from closing.
+		/// Reference: http://api.jqueryui.com/autocomplete/#event-select
+		/// </summary>
+		[Category("Action")]
+		[Description("Triggered when an item is selected from the menu; ui.item refers to the selected item. The default action of select is to replace the text field's value with the value of the selected item. Canceling this event prevents the value from being updated, but does not prevent the menu from closing.")]
+		public event EventHandler Select;
+
+		/// <summary>
+		/// Triggered when the field is blurred, if the value has changed; ui.item refers to the selected item.
+		/// Reference: http://api.jqueryui.com/autocomplete/#event-change
+		/// </summary>
+		[Category("Action")]
+		[Description("Triggered when the field is blurred, if the value has changed; ui.item refers to the selected item.")]
+		public event EventHandler Change;
+
+		#region .    Options    .
 
 		/// <summary>
 		/// Which element the menu should be appended to.
 		/// Reference: http://api.jqueryui.com/autocomplete/#option-appendTo
 		/// </summary>
-		[WidgetOption("appendTo", "body")]
 		[Category("Behavior")]
 		[DefaultValue("body")]
 		[Description("Which element the menu should be appended to.")]
@@ -43,7 +79,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true the first item will be automatically focused.
 		/// Reference: http://api.jqueryui.com/autocomplete/#option-autoFocus
 		/// </summary>
-		[WidgetOption("autoFocus", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If set to true the first item will be automatically focused.")]
@@ -53,7 +88,6 @@ namespace Brew.Webforms.Widgets {
 		/// The delay in milliseconds the Autocomplete waits after a keystroke to activate itself. A zero-delay makes sense for local data (more responsive), but can produce a lot of load for remote data, while being less responsive.
 		/// Reference: http://api.jqueryui.com/autocomplete/#option-delay
 		/// </summary>
-		[WidgetOption("delay", 300)]
 		[Category("Behavior")]
 		[DefaultValue(300)]
 		[Description("The delay in milliseconds the Autocomplete waits after a keystroke to activate itself. A zero-delay makes sense for local data (more responsive), but can produce a lot of load for remote data, while being less responsive.")]
@@ -63,7 +97,6 @@ namespace Brew.Webforms.Widgets {
 		/// The minimum number of characters a user has to type before the Autocomplete activates. Zero is useful for local data with just a few items. Should be increased when there are a lot of items, where a single character would match a few thousand items.
 		/// Reference: http://api.jqueryui.com/autocomplete/#option-minLength
 		/// </summary>
-		[WidgetOption("minLength", 1)]
 		[Category("Key")]
 		[DefaultValue(1)]
 		[Description("The minimum number of characters a user has to type before the Autocomplete activates. Zero is useful for local data with just a few items. Should be increased when there are a lot of items, where a single character would match a few thousand items.")]
@@ -73,16 +106,11 @@ namespace Brew.Webforms.Widgets {
 		/// Identifies the position of the Autocomplete widget in relation to the associated input element. The "of" option defaults to the input element, but you can specify another element to position against. You can refer to the jQuery UI Position utility for more details about the various options.
 		/// Reference: http://api.jqueryui.com/autocomplete/#option-position
 		/// </summary>
-		[WidgetOption("position", "{}", Eval = true)]
 		[TypeConverter(typeof(JsonObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue("{}")]
 		[Description("Identifies the position of the Autocomplete widget in relation to the associated input element. The \"of\" option defaults to the input element, but you can specify another element to position against. You can refer to the jQuery UI Position utility for more details about the various options.")]
 		public string Position { get; set; }
-
-		private String _sourceUrl = null;
-		private String[] _source = null;
-		private List<AutocompleteItem> _sourceList = null;
 
 		/// <summary>
 		/// Defines a data source url for the data to use. Source, Source List or SourceUrl must be specified. 
@@ -134,24 +162,19 @@ namespace Brew.Webforms.Widgets {
 		/// If we run across this scenario again, we should write a TypeDescriptorProvider that will pull Internal/Private properties
 		/// or switch back to using PropertyInfo instead of PropertyDescriptors.
 		/// </remarks>
-		[WidgetOption("source", null)]
 		[TypeConverter(typeof(TypeConverters.AutocompleteSourceConverter))]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
-		[PropertyLink("SourceUrl", typeof(String))]
-		[PropertyLink("Source", typeof(String[]))]
-		[PropertyLink("Source", typeof(ArrayList))]
-		[PropertyLink("SourceList", typeof(List<AutocompleteItem>))]
-		public object Widget_Source {
+		public object _Source {
 			get {
-				if(this._source != null) {
+				if (this._source != null) {
 					return this._source;
 				}
-				else if(this._sourceList != null) {
+				else if (this._sourceList != null) {
 
 					// we need to perform some hackery here so that this will render properly to the widget init/options script.
 					var result = new List<object>();
-					foreach(AutocompleteItem item in _sourceList) {
+					foreach (AutocompleteItem item in _sourceList) {
 						result.Add(new {
 							label = item.Label,
 							value = item.Value
@@ -177,28 +200,6 @@ namespace Brew.Webforms.Widgets {
 				//}
 			}
 		}
-
-		#endregion
-
-		#region Widget Events
-
-		/// <summary>
-		/// Triggered when an item is selected from the menu; ui.item refers to the selected item. The default action of select is to replace the text field's value with the value of the selected item. Canceling this event prevents the value from being updated, but does not prevent the menu from closing.
-		/// Reference: http://api.jqueryui.com/autocomplete/#event-select
-		/// </summary>
-		[WidgetEvent("select")]
-		[Category("Action")]
-		[Description("Triggered when an item is selected from the menu; ui.item refers to the selected item. The default action of select is to replace the text field's value with the value of the selected item. Canceling this event prevents the value from being updated, but does not prevent the menu from closing.")]
-		public event EventHandler Select;
-
-		/// <summary>
-		/// Triggered when the field is blurred, if the value has changed; ui.item refers to the selected item.
-		/// Reference: http://api.jqueryui.com/autocomplete/#event-change
-		/// </summary>
-		[WidgetEvent("change")]
-		[Category("Action")]
-		[Description("Triggered when the field is blurred, if the value has changed; ui.item refers to the selected item.")]
-		public event EventHandler Change;
 
 		#endregion
 

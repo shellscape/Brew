@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,24 +13,47 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a TextBox or input text element with the jQuery UI Spinner http://api.jqueryui.com/spinner/
 	/// </summary>
-	[TargetControlType(typeof(TextBox)), TargetControlType(typeof(HtmlInputText))]
-	[WidgetEvent("create")]
-	[WidgetEvent("start")]
-	[WidgetEvent("spin")]
-	[WidgetEvent("stop")]
-	public class Spinner : Extender, IAutoPostBackWidget {
+	public class Spinner : Widget, IAutoPostBack {
 
-		public Spinner() : base("spinner") {
+		public Spinner() : base("spinner") {		}
 
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("create"),
+				new WidgetEvent("start"),
+				new WidgetEvent("spin"),
+				new WidgetEvent("stop"),
+				new WidgetEvent("change") { CausesPostBack = true, DataChangedEvent = true }
+			};
 		}
 
-		#region Widget Options
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "culture", DefaultValue = null },
+				new WidgetOption { Name = "icons", DefaultValue = "{ down: \"ui-icon-triangle-1-s\", up: \"ui-icon-triangle-1-n\" }" },
+				new WidgetOption { Name = "incremental", DefaultValue = false },
+				new WidgetOption { Name = "max", DefaultValue = null },
+				new WidgetOption { Name = "min", DefaultValue = null },
+				new WidgetOption { Name = "numberFormat", DefaultValue = null },
+				new WidgetOption { Name = "page", DefaultValue = null },
+				new WidgetOption { Name = "step", DefaultValue = null }
+			};
+		}
+
+		/// <summary>
+		/// This event is triggered when the value of the spinner changes.
+		/// Reference: http://api.jqueryui.com/spinner/#event-change
+		/// </summary>
+		[Category("Action")]
+		[Description("This event is triggered when the value of the spinner changes.")]
+		public event EventHandler ValueChanged;
+
+		#region .    Options    .
 
 		/// <summary>
 		/// Sets the culture to use for parsing and formatting the value.
 		/// Reference: http://api.jqueryui.com/spinner/#option-icons
 		/// </summary>
-		[WidgetOption("culture", null)]
 		[Category("Appearance")]
 		[DefaultValue(null)]
 		[Description("Sets the culture to use for parsing and formatting the value.")]
@@ -39,7 +63,6 @@ namespace Brew.Webforms.Widgets {
 		/// Icons to use for buttons, matching an icon defined by the jQuery UI CSS Framework.
 		/// Reference: http://api.jqueryui.com/spinner/#option-icons
 		/// </summary>
-		[WidgetOption("icons", "{ down: \"ui-icon-triangle-1-s\", up: \"ui-icon-triangle-1-n\" }", Eval = true)]
 		[TypeConverter(typeof(Brew.TypeConverters.JsonObjectConverter))]
 		[Category("Appearance")]
 		[DefaultValue("{ down: \"ui-icon-triangle-1-s\", up: \"ui-icon-triangle-1-n\" }")]
@@ -50,7 +73,6 @@ namespace Brew.Webforms.Widgets {
 		/// Controls the number of steps taken when holding down a spin button.
 		/// Reference: http://api.jqueryui.com/spinner/#option-incremental
 		/// </summary>
-		[WidgetOption("incremental", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Controls the number of steps taken when holding down a spin button.")]
@@ -60,7 +82,6 @@ namespace Brew.Webforms.Widgets {
 		/// The maximum allowed value. The element's max attribute is used if it exists and the option is not explicitly set. If null, there is no maximum enforced.
 		/// Reference: http://api.jqueryui.com/spinner/#option-max
 		/// </summary>
-		[WidgetOption("max", null)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Behavior")]
 		[DefaultValue(null)]
@@ -71,7 +92,6 @@ namespace Brew.Webforms.Widgets {
 		/// The minimum allowed value. The element's min attribute is used if it exists and the option is not explicitly set. If null, there is no minimum enforced.
 		/// Reference: http://api.jqueryui.com/spinner/#option-min
 		/// </summary>
-		[WidgetOption("min", null)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Behavior")]
 		[DefaultValue(null)]
@@ -82,7 +102,6 @@ namespace Brew.Webforms.Widgets {
 		/// Format of numbers passed to Globalize, if available.
 		/// Reference: http://api.jqueryui.com/spinner/#option-numberFormat
 		/// </summary>
-		[WidgetOption("numberFormat", null)]
 		[Category("Appearance")]
 		[DefaultValue(null)]
 		[Description("Format of numbers passed to Globalize, if available.")]
@@ -92,7 +111,6 @@ namespace Brew.Webforms.Widgets {
 		/// The number of steps to take when paging via the pageUp/pageDown methods.
 		/// Reference: http://api.jqueryui.com/spinner/#option-numberFormat
 		/// </summary>
-		[WidgetOption("page", null)]
 		[Category("Behavior")]
 		[DefaultValue(null)]
 		[Description("The number of steps to take when paging via the pageUp/pageDown methods.")]
@@ -103,7 +121,6 @@ namespace Brew.Webforms.Widgets {
 		/// The size of the step to take when spinning via buttons or via the stepUp()/stepDown() methods.
 		/// Reference: http://api.jqueryui.com/spinner/#option-min
 		/// </summary>
-		[WidgetOption("step", null)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Behavior")]
 		[DefaultValue(null)]
@@ -112,17 +129,5 @@ namespace Brew.Webforms.Widgets {
 
 		#endregion
 
-		#region Widget Events
-
-		/// <summary>
-		/// This event is triggered when the value of the spinner changes.
-		/// Reference: http://api.jqueryui.com/spinner/#event-change
-		/// </summary>
-		[WidgetEvent("change", AutoPostBack = true, DataChangedHandler = true)]
-		[Category("Action")]
-		[Description("This event is triggered when the value of the spinner changes.")]
-		public event EventHandler ValueChanged;
-
-		#endregion
 	}
 }

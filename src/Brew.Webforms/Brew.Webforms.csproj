@@ -11,6 +11,7 @@
     <AssemblyName>Brew.Winforms</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -59,14 +59,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="IWidget.cs" />
     <Compile Include="TypeConverters\AutocompleteListConverter.cs" />
     <Compile Include="TypeConverters\AutocompleteSourceConverter.cs" />
     <Compile Include="Widget.cs" />
     <Compile Include="Widgets\old\Accordion.cs" />
     <Compile Include="Widgets\old\AccordionPanel.cs" />
-    <Compile Include="Widgets\old\Autocomplete.cs" />
-    <Compile Include="Widgets\old\AutocompleteItem.cs" />
+    <Compile Include="Widgets\Autocomplete.cs" />
+    <Compile Include="Widgets\AutocompleteItem.cs" />
     <Compile Include="Widgets\Button.cs" />
     <Compile Include="Widgets\Buttonset.cs" />
     <Compile Include="Widgets\old\Datepicker.cs" />
@@ -87,10 +88,10 @@
     <Compile Include="Widgets\Selectable.cs" />
     <Compile Include="Widgets\Slider.cs" />
     <Compile Include="Widgets\Sortable.cs" />
-    <Compile Include="Widgets\old\Spinner.cs" />
+    <Compile Include="Widgets\Spinner.cs" />
     <Compile Include="Widgets\old\TabPage.cs" />
     <Compile Include="Widgets\old\Tabs.cs" />
-    <Compile Include="Widgets\old\Tooltip.cs" />
+    <Compile Include="Widgets\Tooltip.cs" />
     <Compile Include="WidgetEvent.cs" />
     <Compile Include="WidgetEventAttribute.cs" />
     <Compile Include="WidgetHash.cs" />

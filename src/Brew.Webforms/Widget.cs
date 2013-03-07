@@ -143,7 +143,7 @@ namespace Brew.Webforms {
 			options.Add(new WidgetOption() { Name = "disabled", DefaultValue = false });
 
 			foreach (var option in options) {
-				var property = type.GetProperties().Where(p => p.Name.ToLower() == option.Name || p.Name == option.PropertyName).FirstOrDefault();
+				var property = type.GetProperty(option);
 
 				if (property == null) {
 					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.");
@@ -221,7 +221,7 @@ namespace Brew.Webforms {
 			var type = this.GetType();
 
 			foreach (var option in options) {
-				var property = type.GetProperties().Where(p => p.Name.ToLower() == option.Name || p.Name == option.PropertyName).FirstOrDefault();
+				var property = type.GetProperty(option);
 
 				if (property == null) {
 					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.");
@@ -257,7 +257,7 @@ namespace Brew.Webforms {
 			var type = this.GetType();
 
 			foreach (var option in options) {
-				var property = type.GetProperties().Where(p => p.Name.ToLower() == option.Name || p.Name == option.PropertyName).FirstOrDefault();
+				var property = type.GetProperty(option);
 
 				if (property == null) {
 					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.");
