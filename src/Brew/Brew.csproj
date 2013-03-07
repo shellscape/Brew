@@ -84,7 +84,7 @@
     <Compile Include="TypeConverters\JsonObjectConverter.cs" />
     <Compile Include="TypeConverters\StringArrayConverter.cs" />
     <Compile Include="TypeConverters\StringToObjectConverter.cs" />
-    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="BrewApplication.cs" />
     <Compile Include="TypeConverters\Int32ArrayConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

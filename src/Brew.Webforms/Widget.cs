@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -16,6 +17,7 @@ namespace Brew.Webforms {
 
 		private Control _target = null;
 		private ScriptManager _scriptManager = null;
+		private List<PostBackHash> _postdata = null;
 
 		protected Widget(String name) {
 			if (string.IsNullOrEmpty(name)) {
@@ -23,8 +25,6 @@ namespace Brew.Webforms {
 			}
 
 			this.Name = name;
-
-			//_widgetState = new WidgetState(this);
 
 			InitDefaults();
 		}
@@ -58,9 +58,6 @@ namespace Brew.Webforms {
 			this.Page.Load += Widget.LoadHandler;
 
 			base.OnInit(e);
-
-			//WidgetState.SetWidgetNameOnTarget(this.TargetControl as IAttributeAccessor);
-			//WidgetState.AddPagePreRenderCompleteHandler();
 		}
 
 		protected override void OnPreRender(EventArgs e) {
@@ -126,11 +123,11 @@ namespace Brew.Webforms {
 
 				var value = property.GetValue(this);
 				var allow = false;
-				
+
 				if (value == null && option.DefaultValue != null) {
 					allow = true;
 				}
-				else if(value != null && !value.Equals(option.DefaultValue)){
+				else if (value != null && !value.Equals(option.DefaultValue)) {
 					allow = true;
 				}
 
@@ -140,13 +137,13 @@ namespace Brew.Webforms {
 					if (value is bool) {
 						outValue = outValue.ToLower();
 					}
-					
+
 					var pair = new KeyValuePair<string, object>(option.Name, outValue);
 
 					result.Add(pair);
 				}
 			}
-			
+
 			return result;
 		}
 
@@ -165,6 +162,97 @@ namespace Brew.Webforms {
 			}
 
 		}
+
+		#region .    Postback State    .
+		
+		private void ParsePostbackData() {
+			if (_postdata == null && this.Page.IsPostBack) {
+
+				var json = this.Page.Request.Form["__brew"];
+				if (!String.IsNullOrEmpty(json)) {
+					var js = new JavaScriptSerializer();
+
+					js.RegisterConverters(new JavaScriptConverter[] { new JavaScriptConverters.PostBackHashConverter() });
+
+					_postdata = js.Deserialize<List<PostBackHash>>(json);
+				}
+			}
+			if (_postdata == null) {
+				_postdata = new List<PostBackHash>();
+			}
+		}
+
+		public void InitPostData() {
+
+			var options = GetOptions();
+			var type = this.GetType();
+
+			foreach (var option in options) {
+				var property = type.GetProperties().Where(p => p.Name.ToLower() == option.Name || p.Name == option.PropertyName).FirstOrDefault();
+				
+				if (property == null) {
+					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.");
+				}
+
+				var current = property.GetValue(this);
+				var postvalue = current;
+				var value = postvalue; // for use with the type converters, the end value.
+				var data = GetPostData();
+
+				if (data != null) {
+					// Changes were made on the client side for this widget, try to get the value for this option
+					data.TryGetValue(option.Name, out postvalue);
+				}
+
+				if (postvalue != null && postvalue is String) {
+					postvalue = System.Web.HttpUtility.HtmlDecode(postvalue as String);
+				}
+
+				if (postvalue == current || (postvalue != null && postvalue.Equals(current))) {
+					continue;
+				}
+		
+				var converter = TypeDescriptor.GetConverter(property.PropertyType);
+
+				if (converter != null) {
+					value = converter.CanConvertFrom(value == null ? null : value.GetType()) ? converter.ConvertFrom(value) : value;
+				}
+
+				try {
+					// jquery ui's defaults for string properties (and such) are often set to false.
+					if (value != null && value.Equals(false) && property.PropertyType == typeof(String)) {
+						value = option.DefaultValue;
+					}
+
+					property.SetValue(this, value);
+				}
+				catch (ArgumentException) {
+					// catches edge cases where there is no type converter defined. eg. false -> int[].
+
+					if (value.Equals(false) && option.DefaultValue == null) {
+						value = null;
+					}
+
+					property.SetValue(this, value);
+				}
+
+				property.SetValue(this, option.DefaultValue);
+			}
+		}
+
+		private IDictionary<string, object> GetPostData() {
+			ParsePostbackData();
+
+			Dictionary<string, object> widgetState;
+
+			widgetState = (from hash in _postdata
+										 where hash.ControlID == this.TargetControl.ClientID && hash.WidgetName == this.Name
+										 select hash.Options).FirstOrDefault() ?? new Dictionary<string, object>();
+
+			return widgetState;
+		}
+
+		#endregion
 
 		#region .    IWidget    .
 
@@ -240,7 +328,7 @@ namespace Brew.Webforms {
 		}
 
 		protected virtual bool LoadPostData(string postDataKey, NameValueCollection postCollection) {
-			//WidgetState.LoadPostData();
+			InitPostData();
 			return false;
 		}
 
