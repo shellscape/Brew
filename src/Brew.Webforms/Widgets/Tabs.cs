@@ -8,6 +8,7 @@ using Brew.TypeConverters;
 
 namespace Brew.Webforms.Widgets {
 
+	[ParseChildren(typeof(TabPage), DefaultProperty = "TabPages", ChildrenAsProperties = true)]
 	public class Tabs : Widget, IAutoPostBack {
 
 		private List<TabPage> _tabPages;

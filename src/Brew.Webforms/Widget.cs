@@ -149,7 +149,7 @@ namespace Brew.Webforms {
 				var property = type.GetProperty(option);
 
 				if (property == null) {
-					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.");
+					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.", option.Name);
 				}
 
 				var value = property.GetValue(this);
@@ -227,7 +227,7 @@ namespace Brew.Webforms {
 				var property = type.GetProperty(option);
 
 				if (property == null) {
-					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.");
+					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.", option.Name);
 				}
 
 				property.SetValue(this, option.DefaultValue);
@@ -263,7 +263,7 @@ namespace Brew.Webforms {
 				var property = type.GetProperty(option);
 
 				if (property == null) {
-					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.");
+					throw new ArgumentException("Brew Error: Widget has option defined with no matching property.", option.Name);
 				}
 
 				var current = property.GetValue(this);

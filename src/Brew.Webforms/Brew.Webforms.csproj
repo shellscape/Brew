@@ -78,8 +78,8 @@
     <Compile Include="IAutoPostBackWidget.cs" />
     <Compile Include="JavaScriptConverters\PostBackHashConverter.cs" />
     <Compile Include="BrewScriptControl.cs" />
-    <Compile Include="Widgets\old\Menu.cs" />
-    <Compile Include="Widgets\old\MenuItem.cs" />
+    <Compile Include="Widgets\Menu.cs" />
+    <Compile Include="Widgets\MenuItem.cs" />
     <Compile Include="Widgets\Position.cs" />
     <Compile Include="PostBackHash.cs" />
     <Compile Include="Widgets\Progressbar.cs" />
