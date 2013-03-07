@@ -5,6 +5,29 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brew", "src\Brew\Brew.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brew.Webforms", "src\Brew.Webforms\Brew.Webforms.csproj", "{63B71756-8B0D-4098-80FE-4FFC145EE065}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Brew.Webforms.Website", "http://localhost:18275", "{801B13D4-65FC-42C7-8341-429AE937AC0B}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		ProjectReferences = "{03c37589-6bf0-4e3b-91d7-9140d0368db6}|Brew.dll;{63b71756-8b0d-4098-80fe-4ffc145ee065}|Brew.Winforms.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_18275"
+		Debug.AspNetCompiler.PhysicalPath = "src\Brew.Webforms.Website\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_18275\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_18275"
+		Release.AspNetCompiler.PhysicalPath = "src\Brew.Webforms.Website\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_18275\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "src\Brew.Webforms.Website\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +42,10 @@ Global
 		{63B71756-8B0D-4098-80FE-4FFC145EE065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63B71756-8B0D-4098-80FE-4FFC145EE065}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63B71756-8B0D-4098-80FE-4FFC145EE065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{801B13D4-65FC-42C7-8341-429AE937AC0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{801B13D4-65FC-42C7-8341-429AE937AC0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{801B13D4-65FC-42C7-8341-429AE937AC0B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{801B13D4-65FC-42C7-8341-429AE937AC0B}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
