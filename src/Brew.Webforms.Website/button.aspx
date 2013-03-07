@@ -5,8 +5,8 @@
 <input type="submit" value="A submit button" id="submit" runat="server" />
 <a href="#" id="anchor" runat="server">An anchor</a>
 
-<brew:button runat="server" for="butan" text="false" />
-<brew:button runat="server" for="submit" label="new label" disabled="true" />
+<brew:button id="brewbutton" runat="server" for="butan" label="new label" />
+<brew:button runat="server" for="submit"  disabled="true" />
 <brew:button runat="server" for="anchor" icons='{"primary": "ui-icon-gear", "secondary": "ui-icon-triangle-1-s"}' />
 
 <br/><br/>

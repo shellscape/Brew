@@ -120,16 +120,16 @@
   <data name="HashTemplate" xml:space="preserve">
     <value>// Brew
 (function(brew) {{
-	if(typeof(__brew) !== 'undefined') {{
-		__brew.widgets = {0};
+	if(typeof(brew) !== 'undefined') {{
+		brew.widgets = {0};
 	}}
 }})(window.__brew);</value>
   </data>
   <data name="SubmitScript" xml:space="preserve">
     <value>// Brew
 (function(brew) {
-	if(typeof(__brew) !== 'undefined') {
-		__brew.onsubmit();
+	if(typeof(brew) !== 'undefined') {
+		brew.onsubmit();
 	}
 })(window.__brew);</value>
   </data>

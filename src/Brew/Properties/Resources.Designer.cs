@@ -63,8 +63,8 @@ namespace Brew.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // Brew
         ///(function(brew) {{
-        ///	if(typeof(__brew) !== &apos;undefined&apos;) {{
-        ///		__brew.widgets = {0};
+        ///	if(typeof(brew) !== &apos;undefined&apos;) {{
+        ///		brew.widgets = {0};
         ///	}}
         ///}})(window.__brew);.
         /// </summary>
@@ -77,8 +77,8 @@ namespace Brew.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // Brew
         ///(function(brew) {
-        ///	if(typeof(__brew) !== &apos;undefined&apos;) {
-        ///		__brew.onsubmit();
+        ///	if(typeof(brew) !== &apos;undefined&apos;) {
+        ///		brew.onsubmit();
         ///	}
         ///})(window.__brew);.
         /// </summary>

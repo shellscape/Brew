@@ -42,6 +42,8 @@ namespace Brew.Webforms {
 			if (ScriptManager.GetCurrent(page) == null) {
 				page.Form.Controls.AddAt(0, new ScriptManager() { ID = "scriptmanager" });
 			}
+
+			ScriptManager.RegisterOnSubmitStatement(page, typeof(Widget), "Brew.Script", Properties.Resources.SubmitScript);
 		}
 
 		public abstract List<String> GetEvents();
@@ -65,7 +67,7 @@ namespace Brew.Webforms {
 
 			this._scriptManager = ScriptManager.GetCurrent(this.Page);
 			this._scriptManager.RegisterScriptControl<Widget>(this);
-
+			
 			if (this._target == null) {
 				if (String.IsNullOrEmpty(this.For)) {
 					throw new ArgumentException("Brew Error: The \"for\" attribute cannot be null or empty.");
@@ -87,6 +89,7 @@ namespace Brew.Webforms {
 			var widget = new HtmlGenericControl("widget") { ClientIDMode = ClientIDMode.Static };
 			var attributes = ParseOptions();
 
+			widget.Attributes.Add("id", this.ClientID);
 			widget.Attributes.Add("name", this.Name);
 			widget.Attributes.Add("for", this.TargetControl.ClientID);
 
@@ -168,7 +171,7 @@ namespace Brew.Webforms {
 		private void ParsePostbackData() {
 			if (_postdata == null && this.Page.IsPostBack) {
 
-				var json = this.Page.Request.Form["__brew"];
+				var json = this.Page.Request.Form["__brewstate"];
 				if (!String.IsNullOrEmpty(json)) {
 					var js = new JavaScriptSerializer();
 
@@ -211,11 +214,15 @@ namespace Brew.Webforms {
 				if (postvalue == current || (postvalue != null && postvalue.Equals(current))) {
 					continue;
 				}
-		
-				var converter = TypeDescriptor.GetConverter(property.PropertyType);
 
-				if (converter != null) {
-					value = converter.CanConvertFrom(value == null ? null : value.GetType()) ? converter.ConvertFrom(value) : value;
+				var attribute = property.GetCustomAttribute<TypeConverterAttribute>();
+				
+				if (attribute != null) {
+					var converter = Activator.CreateInstance(Type.GetType(attribute.ConverterTypeName)) as TypeConverter;
+
+					if (converter != null) {
+						value = converter.CanConvertFrom(postvalue == null ? null : postvalue.GetType()) ? converter.ConvertFrom(postvalue) : postvalue;
+					}
 				}
 
 				try {
@@ -235,8 +242,6 @@ namespace Brew.Webforms {
 
 					property.SetValue(this, value);
 				}
-
-				property.SetValue(this, option.DefaultValue);
 			}
 		}
 
@@ -306,7 +311,15 @@ namespace Brew.Webforms {
 		public String @For { get; set; }
 
 		[Browsable(false)]
-		public Control TargetControl { get { return this._target; } }
+		public Control TargetControl { 
+			get {
+				if (this._target == null) {
+					this._target = FindControl(this.For);
+				}
+				
+				return this._target; 
+			} 
+		}
 
 		// redundant, but we may want to do magic here.
 		//public bool Visible { get { return base.Visible; } }

@@ -46,24 +46,24 @@
 				options = [];
 
 			$('brew widget').each(function () {
-				var widget = $(this),
-					_for = widget.attr('for'),
-					name = widget.attr('name'),
-					element = $('#' + _for),
-					ui = element.data(name),
-					data = $.extend({}, uiWidget.options);
+				var widget = $(this);
+				var _for = widget.attr('for');
+				var name = widget.attr('name');
+				var element = $('#' + _for);
+				var ui = element.data("ui-" + name);
+				var data = $.extend({}, ui.options);
 
 				if (!ui) {
 					return;
 				}
 
 				$.each(data, function (label) {
-					if (typeof(this).toLowerCase() == "string") {
+					if (typeof(this) == "string") {
 						data[label] = htmlEncode(this);
 					}
 				});
 
-				options.push({ id: widget.id, widgetName: widgetName, options: data });
+				options.push({ id: _for, widgetName: name, options: data });
 			});
 
 			input.val(JSON.stringify(options));
