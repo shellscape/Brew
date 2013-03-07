@@ -17,30 +17,65 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a Control, WebControl or HtmlControl with the jQuery UI Dialog http://jqueryui.com/demos/dialog/
 	/// </summary>
-	[TargetControlType(typeof(Control))]
-	[TargetControlType(typeof(WebControl))]
-	[TargetControlType(typeof(HtmlControl))] // should be able to support any kind of content control
-	[WidgetEvent("create")]
-	[WidgetEvent("beforeClose")]
-	[WidgetEvent("dragStart")]
-	[WidgetEvent("focus")]
-	[WidgetEvent("open")]
-	[WidgetEvent("drag")]
-	[WidgetEvent("dragStop")]
-	[WidgetEvent("resizeStart")]
-	[WidgetEvent("resize")]
-	[WidgetEvent("resizeStop")]
-	public class Dialog : Extender {
+	public class Dialog : Widget {
 
 		public Dialog() : base("dialog") { }
 
-		#region Widget Options
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("create"),
+				new WidgetEvent("beforeClose"),
+				new WidgetEvent("dragStart"),
+				new WidgetEvent("focus"),
+				new WidgetEvent("open"),
+				new WidgetEvent("drag"),
+				new WidgetEvent("dragStop"),
+				new WidgetEvent("resizeStart"),
+				new WidgetEvent("resize"),
+				new WidgetEvent("resizeStop"),
+				new WidgetEvent("close")
+			};
+		}
+
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "autoOpen", DefaultValue = true },
+				new WidgetOption { Name = "buttons", DefaultValue = "{}" },
+				new WidgetOption { Name = "closeOnEscape", DefaultValue = true },
+				new WidgetOption { Name = "closeText", DefaultValue = "close" },
+				new WidgetOption { Name = "dialogClass", DefaultValue = "" },
+				new WidgetOption { Name = "draggable", DefaultValue = true },
+				new WidgetOption { Name = "height", DefaultValue = 0 },
+				new WidgetOption { Name = "hide", DefaultValue = null },
+				new WidgetOption { Name = "maxHeight", DefaultValue = 0 },
+				new WidgetOption { Name = "maxWidth", DefaultValue = 0 },
+				new WidgetOption { Name = "minHeight", DefaultValue = 150 },
+				new WidgetOption { Name = "minWidth", DefaultValue = 150 },
+				new WidgetOption { Name = "modal", DefaultValue = false },		
+				new WidgetOption { Name = "position", DefaultValue = "center" },
+				new WidgetOption { Name = "resizable", DefaultValue = true },
+				new WidgetOption { Name = "show", DefaultValue = null },
+				new WidgetOption { Name = "stack", DefaultValue = true },
+				new WidgetOption { Name = "title", DefaultValue = "" },
+				new WidgetOption { Name = "width", DefaultValue = 300 },
+				new WidgetOption { Name = "zIndex", DefaultValue = 1000 }
+			};
+		}
+
+		/// <summary>
+		/// This event is triggered when the dialog is closed.
+		/// Reference: http://jqueryui.com/demos/dialog/#close
+		/// </summary>
+		[Category("Action")]
+		[Description("This event is triggered when the dialog is closed.")]
+		public event EventHandler Close;
+
+		#region .    Options    .
 
 		/// <summary>
 		/// When autoOpen is true the dialog will open automatically when dialog is called. If false it will stay hidden until .dialog("open") is called on it.
 		/// Reference: http://jqueryui.com/demos/dialog/#autoOpen
 		/// </summary>
-		[WidgetOption("autoOpen", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("When autoOpen is true the dialog will open automatically when dialog is called. If false it will stay hidden until .dialog(\"open\") is called on it.")]
@@ -50,7 +85,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked.  The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object.
 		/// Reference: http://jqueryui.com/demos/dialog/#buttons
 		/// </summary>
-		[WidgetOption("buttons", "{}", Eval = true)]
 		[TypeConverter(typeof(Brew.TypeConverters.JsonObjectConverter))]
 		[Category("Appearance")]
 		[DefaultValue("{}")]
@@ -61,7 +95,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specifies whether the dialog should close when it has focus and the user presses the esacpe (ESC) key.
 		/// Reference: http://jqueryui.com/demos/dialog/#closeOnEscape
 		/// </summary>
-		[WidgetOption("closeOnEscape", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("Specifies whether the dialog should close when it has focus and the user presses the esacpe (ESC) key.")]
@@ -71,7 +104,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specifies the text for the close button. Note that the close text is visibly hidden when using a standard theme.
 		/// Reference: http://jqueryui.com/demos/dialog/#closeText
 		/// </summary>
-		[WidgetOption("closeText", "close")]
 		[Category("Appearance")]
 		[DefaultValue("close")]
 		[Description("Specifies the text for the close button. Note that the close text is visibly hidden when using a standard theme.")]
@@ -81,7 +113,6 @@ namespace Brew.Webforms.Widgets {
 		/// The specified class name(s) will be added to the dialog, for additional theming.
 		/// Reference: http://jqueryui.com/demos/dialog/#dialogClass
 		/// </summary>
-		[WidgetOption("dialogClass", "")]
 		[Category("Appearance")]
 		[DefaultValue("")]
 		[Description("The specified class name(s) will be added to the dialog, for additional theming.")]
@@ -91,7 +122,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, the dialog will be draggable will be draggable by the titlebar.
 		/// Reference: http://jqueryui.com/demos/dialog/#draggable
 		/// </summary>
-		[WidgetOption("draggable", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("If set to true, the dialog will be draggable will be draggable by the titlebar.")]
@@ -101,7 +131,6 @@ namespace Brew.Webforms.Widgets {
 		/// The height of the dialog, in pixels. Specifying 'auto' is also supported to make the dialog adjust based on its content.
 		/// Reference: http://jqueryui.com/demos/dialog/#height
 		/// </summary>
-		[WidgetOption("height", 0)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue("auto")]
@@ -112,7 +141,6 @@ namespace Brew.Webforms.Widgets {
 		/// The effect to be used when the dialog is closed.
 		/// Reference: http://jqueryui.com/demos/dialog/#hide
 		/// </summary>
-		[WidgetOption("hide", null)]
 		[Category("Behavior")]
 		[DefaultValue(null)]
 		[Description("The effect to be used when the dialog is closed.")]
@@ -122,7 +150,6 @@ namespace Brew.Webforms.Widgets {
 		/// The maximum height to which the dialog can be resized, in pixels.
 		/// Reference: http://jqueryui.com/demos/dialog/#maxHeight
 		/// </summary>
-		[WidgetOption("maxHeight", 0)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue(false)]
@@ -133,7 +160,6 @@ namespace Brew.Webforms.Widgets {
 		/// The maximum width to which the dialog can be resized, in pixels.
 		/// Reference: http://jqueryui.com/demos/dialog/#maxWidth
 		/// </summary>
-		[WidgetOption("maxWidth", 0)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue(false)]
@@ -144,7 +170,6 @@ namespace Brew.Webforms.Widgets {
 		/// The minimum height to which the dialog can be resized, in pixels.
 		/// Reference: http://jqueryui.com/demos/dialog/#minHeight
 		/// </summary>
-		[WidgetOption("minHeight", 150)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue(150)]
@@ -155,7 +180,6 @@ namespace Brew.Webforms.Widgets {
 		/// The minimum width to which the dialog can be resized, in pixels.
 		/// Reference: http://jqueryui.com/demos/dialog/#minWidth
 		/// </summary>
-		[WidgetOption("minWidth", 150)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue(150)]
@@ -166,7 +190,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements.
 		/// Reference: http://jqueryui.com/demos/dialog/#modal
 		/// </summary>
-		[WidgetOption("modal", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements.")]
@@ -176,7 +199,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specifies where the dialog should be displayed. Possible values: 1) a single string representing position within viewport: 'center', 'left', 'right', 'top', 'bottom'. 2) an array containing an x,y coordinate pair in pixel offset from left, top corner of viewport (e.g. [350,100]) 3) an array containing x,y position string values (e.g. ['right','top'] for top right corner).
 		/// Reference: http://jqueryui.com/demos/dialog/#position
 		/// </summary>
-		[WidgetOption("position", "center", Eval = true)]
 		[TypeConverter(typeof(JsonObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue("center")]
@@ -187,7 +209,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, the dialog will be resizeable.
 		/// Reference: http://jqueryui.com/demos/dialog/#resizable
 		/// </summary>
-		[WidgetOption("resizable", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("If set to true, the dialog will be resizeable.")]
@@ -197,7 +218,6 @@ namespace Brew.Webforms.Widgets {
 		/// The effect to be used when the dialog is opened.
 		/// Reference: http://jqueryui.com/demos/dialog/#show
 		/// </summary>
-		[WidgetOption("show", null)]
 		[Category("Appearance")]
 		[DefaultValue(null)]
 		[Description("The effect to be used when the dialog is opened.")]
@@ -207,7 +227,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specifies whether the dialog will stack on top of other dialogs. This will cause the dialog to move to the front of other dialogs when it gains focus.
 		/// Reference: http://jqueryui.com/demos/dialog/#stack
 		/// </summary>
-		[WidgetOption("stack", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("Specifies whether the dialog will stack on top of other dialogs. This will cause the dialog to move to the front of other dialogs when it gains focus.")]
@@ -217,7 +236,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specifies the title of the dialog. Any valid HTML may be set as the title. The title can also be specified by the title attribute on the dialog source element.
 		/// Reference: http://jqueryui.com/demos/dialog/#title
 		/// </summary>
-		[WidgetOption("title", "")]
 		[Category("Appearance")]
 		[DefaultValue("")]
 		[Description("Specifies the title of the dialog. Any valid HTML may be set as the title. The title can also be specified by the title attribute on the dialog source element.")]
@@ -227,7 +245,6 @@ namespace Brew.Webforms.Widgets {
 		/// The width of the dialog, in pixels.
 		/// Reference: http://jqueryui.com/demos/dialog/#width
 		/// </summary>
-		[WidgetOption("width", 300)]
 		[TypeConverter(typeof(StringToObjectConverter))]
 		[Category("Layout")]
 		[DefaultValue(300)]
@@ -238,24 +255,10 @@ namespace Brew.Webforms.Widgets {
 		/// The starting z-index for the dialog.
 		/// Reference: http://jqueryui.com/demos/dialog/#zIndex
 		/// </summary>
-		[WidgetOption("zIndex", 1000)]
 		[Category("Behavior")]
 		[DefaultValue(1000)]
 		[Description("The starting z-index for the dialog.")]
 		public int ZIndex { get; set; }
-
-		#endregion
-
-		#region Widget Events
-
-		/// <summary>
-		/// This event is triggered when the dialog is closed.
-		/// Reference: http://jqueryui.com/demos/dialog/#close
-		/// </summary>
-		[WidgetEvent("close")]
-		[Category("Action")]
-		[Description("This event is triggered when the dialog is closed.")]
-		public event EventHandler Close;
 
 		#endregion
 

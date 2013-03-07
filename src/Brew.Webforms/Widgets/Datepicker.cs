@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -11,27 +12,84 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a TextBox with the jQuery UI Datepicker http://api.jqueryui.com/datepicker/
 	/// </summary>
-	[TargetControlType(typeof(TextBox)), TargetControlType(typeof(HtmlInputText))]
-	[WidgetEvent("create")]
-	[WidgetEvent("beforeShow")]
-	// TODO: This event causes a failure when pushing through amplify pub/sub because
-	//       the widget is expecting it to return a value and fails when it doesn't
-	//[WidgetEvent("beforeShowDay")]
-	[WidgetEvent("onChangeMonthYear")]
-	[WidgetEvent("onClose")]
-	public class Datepicker : Extender {
+	public class Datepicker : Widget {
 
-		public Datepicker() : base("datepicker") {
+		public Datepicker() : base("datepicker") {		}
 
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("create"),
+				new WidgetEvent("beforeShow"),
+				new WidgetEvent("beforeShowDay"),
+				new WidgetEvent("onChangeMonthYear"),
+				new WidgetEvent("onClose"),
+				new WidgetEvent("onSelect")
+			};
 		}
 
-		#region Widget Options
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "altField", DefaultValue = "" },
+				new WidgetOption { Name = "altFormat", DefaultValue = "" },
+				new WidgetOption { Name = "appendText", DefaultValue = "" },
+				new WidgetOption { Name = "autoSize", DefaultValue = false },
+				new WidgetOption { Name = "buttonImage", DefaultValue = "" },
+				new WidgetOption { Name = "buttonImageOnly", DefaultValue = false },
+				new WidgetOption { Name = "buttonText", DefaultValue = "..." },
+				new WidgetOption { Name = "calculateWeek", DefaultValue = "$.datepicker.iso8601Week" },
+				new WidgetOption { Name = "changeMonth", DefaultValue = false },
+				new WidgetOption { Name = "changeYear", DefaultValue = false },
+				new WidgetOption { Name = "closeText", DefaultValue = "Done" },
+				new WidgetOption { Name = "constrainInput", DefaultValue = true },
+				new WidgetOption { Name = "currentText", DefaultValue = "Today" },
+				new WidgetOption { Name = "dateFormat", DefaultValue = "mm/dd/yy" },
+				new WidgetOption { Name = "dayNames", DefaultValue = new string[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" } },
+				new WidgetOption { Name = "dayNamesMin", DefaultValue = new string[] { "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" } },
+				new WidgetOption { Name = "dayNamesShort", DefaultValue = new string[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" } },
+				new WidgetOption { Name = "defaultDate", DefaultValue = null },
+				new WidgetOption { Name = "duration", DefaultValue = "normal" },
+				new WidgetOption { Name = "firstDay", DefaultValue = 0 },
+				new WidgetOption { Name = "gotoCurrent", DefaultValue = false },
+				new WidgetOption { Name = "hideIfNoPrevNext", DefaultValue = false },
+				new WidgetOption { Name = "isRTL", DefaultValue = false },
+				new WidgetOption { Name = "maxDate", DefaultValue = null },
+				new WidgetOption { Name = "minDate", DefaultValue = null },
+				new WidgetOption { Name = "monthNames", DefaultValue = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" } },
+				new WidgetOption { Name = "monthNamesShort", DefaultValue = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" } },
+				new WidgetOption { Name = "navigationAsDateFormat", DefaultValue = false },
+				new WidgetOption { Name = "nextText", DefaultValue = "Next" },
+				new WidgetOption { Name = "prevText", DefaultValue = "Prev" },
+				new WidgetOption { Name = "selectOtherMonths", DefaultValue = false },
+				new WidgetOption { Name = "shortYearCutoff", DefaultValue = "+10" },
+				new WidgetOption { Name = "showAnim", DefaultValue = "show" },
+				new WidgetOption { Name = "showButtonPanel", DefaultValue = false },
+				new WidgetOption { Name = "showCurrentAtPos", DefaultValue = 0 },
+				new WidgetOption { Name = "showMonthAfterYear", DefaultValue = false },
+				new WidgetOption { Name = "showOn", DefaultValue = "focus" },
+				new WidgetOption { Name = "showOptions", DefaultValue = "{}" },
+				new WidgetOption { Name = "showOtherMonths", DefaultValue = false },
+				new WidgetOption { Name = "showWeek", DefaultValue = false },
+				new WidgetOption { Name = "stepMonths", DefaultValue = 1 },
+				new WidgetOption { Name = "weekHeader", DefaultValue = "Wk" },
+				new WidgetOption { Name = "yearRange", DefaultValue = "c-10:c+10" },
+				new WidgetOption { Name = "yearSuffix", DefaultValue = "" },
+			};
+		}
+
+		/// <summary>
+		/// Allows you to define your own event when the datepicker is selected. The function receives the selected date as text and the datepicker instance as parameters. this refers to the associated input field.
+		/// Reference: http://api.jqueryui.com/datepicker/#event-onSelect
+		/// </summary>
+		[Category("Action")]
+		[Description("Allows you to define your own event when the datepicker is selected. The function receives the selected date as text and the datepicker instance as parameters. this refers to the associated input field.")]
+		public event EventHandler OnSelect;
+
+		#region .    Options    .
 
 		/// <summary>
 		/// The jQuery selector for another field that is to be updated with the selected date from the datepicker. Use the altFormat setting to change the format of the date within this field. Leave as blank for no alternate field.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-altField
 		/// </summary>
-		[WidgetOption("altField", "")]
 		[Category("Behavior")]
 		[DefaultValue("")]
 		[Description("The jQuery selector for another field that is to be updated with the selected date from the datepicker. Use the altFormat setting to change the format of the date within this field. Leave as blank for no alternate field.")]
@@ -41,7 +99,6 @@ namespace Brew.Webforms.Widgets {
 		/// The dateFormat to be used for the altField option. This allows one date format to be shown to the user for selection purposes, while a different format is actually sent behind the scenes. For a full list of the possible formats see the formatDate function
 		/// Reference: http://api.jqueryui.com/datepicker/#option-altFormat
 		/// </summary>
-		[WidgetOption("altFormat", "")]
 		[Category("Appearance")]
 		[DefaultValue("")]
 		[Description("The dateFormat to be used for the altField option. This allows one date format to be shown to the user for selection purposes, while a different format is actually sent behind the scenes. For a full list of the possible formats see the formatDate function")]
@@ -51,7 +108,6 @@ namespace Brew.Webforms.Widgets {
 		/// The text to display after each date field, e.g. to show the required format.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-appendText
 		/// </summary>
-		[WidgetOption("appendText", "")]
 		[Category("Appearance")]
 		[DefaultValue("")]
 		[Description("The text to display after each date field, e.g. to show the required format.")]
@@ -61,7 +117,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set to true to automatically resize the input field to accomodate dates in the current dateFormat.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-autoSize
 		/// </summary>
-		[WidgetOption("autoSize", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Set to true to automatically resize the input field to accomodate dates in the current dateFormat.")]
@@ -71,7 +126,6 @@ namespace Brew.Webforms.Widgets {
 		/// The URL for the popup button image. If set, buttonText becomes the alt value and is not directly displayed.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-buttonImage
 		/// </summary>
-		[WidgetOption("buttonImage", "")]
 		[Category("Appearance")]
 		[DefaultValue("")]
 		[Description("The URL for the popup button image. If set, buttonText becomes the alt value and is not directly displayed.")]
@@ -81,7 +135,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set to true to place an image after the field to use as the trigger without it appearing on a button.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-buttonImageOnly
 		/// </summary>
-		[WidgetOption("buttonImageOnly", false)]
 		[Category("Appearance")]
 		[DefaultValue(false)]
 		[Description("Set to true to place an image after the field to use as the trigger without it appearing on a button.")]
@@ -91,7 +144,6 @@ namespace Brew.Webforms.Widgets {
 		/// The text to display on the trigger button. Use in conjunction with showOn equal to 'button' or 'both'.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-buttonText
 		/// </summary>
-		[WidgetOption("buttonText", "...")]
 		[Category("Appearance")]
 		[DefaultValue("...")]
 		[Description("The text to display on the trigger button. Use in conjunction with showOn equal to 'button' or 'both'.")]
@@ -101,7 +153,6 @@ namespace Brew.Webforms.Widgets {
 		/// A function to calculate the week of the year for a given date. The default implementation uses the ISO 8601 definition: weeks start on a Monday; the first week of the year contains the first Thursday of the year.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-calculateWeek
 		/// </summary>
-		[WidgetOption("calculateWeek", "$.datepicker.iso8601Week", Eval = true)]
 		[TypeConverter(typeof(Brew.TypeConverters.JsonObjectConverter))]
 		[Category("")]
 		[DefaultValue("$.datepicker.iso8601Week")]
@@ -112,7 +163,6 @@ namespace Brew.Webforms.Widgets {
 		/// Allows you to change the month by selecting from a drop-down list. You can enable this feature by setting the attribute to true.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-changeMonth
 		/// </summary>
-		[WidgetOption("changeMonth", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Allows you to change the month by selecting from a drop-down list. You can enable this feature by setting the attribute to true.")]
@@ -122,7 +172,6 @@ namespace Brew.Webforms.Widgets {
 		/// Allows you to change the year by selecting from a drop-down list. You can enable this feature by setting the attribute to true. Use the yearRange option to control which years are made available for selection.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-changeYear
 		/// </summary>
-		[WidgetOption("changeYear", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Allows you to change the year by selecting from a drop-down list. You can enable this feature by setting the attribute to true. Use the yearRange option to control which years are made available for selection.")]
@@ -132,7 +181,6 @@ namespace Brew.Webforms.Widgets {
 		/// The text to display for the close link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-closeText
 		/// </summary>
-		[WidgetOption("closeText", "Done")]
 		[Category("Appearance")]
 		[DefaultValue("Done")]
 		[Description("The text to display for the close link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button.")]
@@ -142,7 +190,6 @@ namespace Brew.Webforms.Widgets {
 		/// When true entry in the input field is constrained to those characters allowed by the current dateFormat.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-constrainInput
 		/// </summary>
-		[WidgetOption("constrainInput", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("When true entry in the input field is constrained to those characters allowed by the current dateFormat.")]
@@ -152,7 +199,6 @@ namespace Brew.Webforms.Widgets {
 		/// The text to display for the current day link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-currentText
 		/// </summary>
-		[WidgetOption("currentText", "Today")]
 		[Category("Appearance")]
 		[DefaultValue("Today")]
 		[Description("The text to display for the current day link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button.")]
@@ -162,7 +208,6 @@ namespace Brew.Webforms.Widgets {
 		/// The format for parsed and displayed dates. This attribute is one of the regionalisation attributes. For a full list of the possible formats see the formatDate function.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-dateFormat
 		/// </summary>
-		[WidgetOption("dateFormat", "mm/dd/yy")]
 		[Category("Format")]
 		[DefaultValue("mm/dd/yy")]
 		[Description("The format for parsed and displayed dates. This attribute is one of the regionalisation attributes. For a full list of the possible formats see the formatDate function.")]
@@ -172,7 +217,6 @@ namespace Brew.Webforms.Widgets {
 		/// The list of long day names, starting from Sunday, for use as requested via the dateFormat setting. They also appear as popup hints when hovering over the corresponding column headings. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-dayNames
 		/// </summary>
-		[WidgetOption("dayNames", new string[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" })]
 		[TypeConverter(typeof(Brew.TypeConverters.StringArrayConverter))]
 		[Category("Data")]
 		[DefaultValue("Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday")]
@@ -183,7 +227,6 @@ namespace Brew.Webforms.Widgets {
 		/// The list of minimised day names, starting from Sunday, for use as column headers within the datepicker. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-dayNamesMin
 		/// </summary>
-		[WidgetOption("dayNamesMin", new string[] { "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" })]
 		[TypeConverter(typeof(Brew.TypeConverters.StringArrayConverter))]
 		[Category("Data")]
 		[DefaultValue("Su, Mo, Tu, We, Th, Fr, Sa")]
@@ -194,7 +237,6 @@ namespace Brew.Webforms.Widgets {
 		/// The list of abbreviated day names, starting from Sunday, for use as requested via the dateFormat setting. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-dayNamesShort
 		/// </summary>
-		[WidgetOption("dayNamesShort", new string[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" })]
 		[TypeConverter(typeof(Brew.TypeConverters.StringArrayConverter))]
 		[Category("Data")]
 		[DefaultValue("Sun, Mon, Tue, Wed, Thu, Fri, Sat")]
@@ -205,7 +247,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set the date to highlight on first opening if the field is blank. Specify either an actual date via a Date object or as a string in the current dateFormat, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +7d'), or null for today.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-defaultDate
 		/// </summary>
-		[WidgetOption("defaultDate", null)]
 		[Category("Data")]
 		[DefaultValue(null)]
 		[Description("Set the date to highlight on first opening if the field is blank. Specify either an actual date via a Date object or as a string in the current dateFormat, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +7d'), or null for today.")]
@@ -215,7 +256,6 @@ namespace Brew.Webforms.Widgets {
 		/// Control the speed at which the datepicker appears, it may be a time in milliseconds or a string representing one of the three predefined speeds ("slow", "normal", "fast").
 		/// Reference: http://api.jqueryui.com/datepicker/#option-duration
 		/// </summary>
-		[WidgetOption("duration", "normal")]
 		[Category("Behavior")]
 		[DefaultValue("normal")]
 		[Description("Control the speed at which the datepicker appears, it may be a time in milliseconds or a string representing one of the three predefined speeds (\"slow\", \"normal\", \"fast\").")]
@@ -225,7 +265,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set the first day of the week: Sunday is 0, Monday is 1, ... This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-firstDay
 		/// </summary>
-		[WidgetOption("firstDay", 0)]
 		[Category("Appearance")]
 		[DefaultValue(0)]
 		[Description("Set the first day of the week: Sunday is 0, Monday is 1, ... This attribute is one of the regionalisation attributes.")]
@@ -235,7 +274,6 @@ namespace Brew.Webforms.Widgets {
 		/// When true the current day link moves to the currently selected date instead of today.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-gotoCurrent
 		/// </summary>
-		[WidgetOption("gotoCurrent", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("When true the current day link moves to the currently selected date instead of today.")]
@@ -245,7 +283,6 @@ namespace Brew.Webforms.Widgets {
 		/// Normally the previous and next links are disabled when not applicable (see minDate/maxDate). You can hide them altogether by setting this attribute to true.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-hideIfNoPrevNext
 		/// </summary>
-		[WidgetOption("hideIfNoPrevNext", false)]
 		[Category("Layout")]
 		[DefaultValue(false)]
 		[Description("Normally the previous and next links are disabled when not applicable (see minDate/maxDate). You can hide them altogether by setting this attribute to true.")]
@@ -255,7 +292,6 @@ namespace Brew.Webforms.Widgets {
 		/// True if the current language is drawn from right to left. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-isRTL
 		/// </summary>
-		[WidgetOption("isRTL", false)]
 		[Category("Layout")]
 		[DefaultValue(false)]
 		[Description("True if the current language is drawn from right to left. This attribute is one of the regionalisation attributes.")]
@@ -265,7 +301,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set a maximum selectable date via a Date object or as a string in the current dateFormat, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +1w'), or null for no limit.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-maxDate
 		/// </summary>
-		[WidgetOption("maxDate", null)]
 		[Category("Data")]
 		[DefaultValue(null)]
 		[Description("Set a maximum selectable date via a Date object or as a string in the current dateFormat, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +1w'), or null for no limit.")]
@@ -275,7 +310,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set a minimum selectable date via a Date object or as a string in the current dateFormat, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '-1y -1m'), or null for no limit.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-minDate
 		/// </summary>
-		[WidgetOption("minDate", null)]
 		[Category("Data")]
 		[DefaultValue(null)]
 		[Description("Set a minimum selectable date via a Date object or as a string in the current dateFormat, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '-1y -1m'), or null for no limit.")]
@@ -285,7 +319,6 @@ namespace Brew.Webforms.Widgets {
 		/// The list of full month names, for use as requested via the dateFormat setting. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-monthNames
 		/// </summary>
-		[WidgetOption("monthNames", new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" })]
 		[TypeConverter(typeof(Brew.TypeConverters.StringArrayConverter))]
 		[Category("Data")]
 		[DefaultValue("January, February, March, April, May, June, July, August, September, October, November, December")]
@@ -296,7 +329,6 @@ namespace Brew.Webforms.Widgets {
 		/// The list of abbreviated month names, as used in the month header on each datepicker and as requested via the dateFormat setting. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-monthNamesShort
 		/// </summary>
-		[WidgetOption("monthNamesShort", new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" })]
 		[TypeConverter(typeof(Brew.TypeConverters.StringArrayConverter))]
 		[Category("Data")]
 		[DefaultValue("Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec")]
@@ -307,7 +339,6 @@ namespace Brew.Webforms.Widgets {
 		/// When true the formatDate function is applied to the prevText, nextText, and currentText values before display, allowing them to display the target month names for example.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-navigationAsDateFormat
 		/// </summary>
-		[WidgetOption("navigationAsDateFormat", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("When true the formatDate function is applied to the prevText, nextText, and currentText values before display, allowing them to display the target month names for example.")]
@@ -317,7 +348,6 @@ namespace Brew.Webforms.Widgets {
 		/// The text to display for the next month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-nextText
 		/// </summary>
-		[WidgetOption("nextText", "Next")]
 		[Category("Appearance")]
 		[DefaultValue("Next")]
 		[Description("The text to display for the next month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon.")]
@@ -337,7 +367,6 @@ namespace Brew.Webforms.Widgets {
 		/// The text to display for the previous month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-prevText
 		/// </summary>
-		[WidgetOption("prevText", "Prev")]
 		[Category("Appearance")]
 		[DefaultValue("Prev")]
 		[Description("The text to display for the previous month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon.")]
@@ -347,7 +376,6 @@ namespace Brew.Webforms.Widgets {
 		/// When true days in other months shown before or after the current month are selectable. This only applies if showOtherMonths is also true.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-selectOtherMonths
 		/// </summary>
-		[WidgetOption("selectOtherMonths", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("When true days in other months shown before or after the current month are selectable. This only applies if showOtherMonths is also true.")]
@@ -357,7 +385,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set the cutoff year for determining the century for a date (used in conjunction with dateFormat 'y'). If a numeric value (0-99) is provided then this value is used directly. If a string value is provided then it is converted to a number and added to the current year. Once the cutoff year is calculated, any dates entered with a year value less than or equal to it are considered to be in the current century, while those greater than it are deemed to be in the previous century.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-shortYearCutoff
 		/// </summary>
-		[WidgetOption("shortYearCutoff", "+10")]
 		[Category("Behavior")]
 		[DefaultValue("+10")]
 		[Description("Set the cutoff year for determining the century for a date (used in conjunction with dateFormat 'y'). If a numeric value (0-99) is provided then this value is used directly. If a string value is provided then it is converted to a number and added to the current year. Once the cutoff year is calculated, any dates entered with a year value less than or equal to it are considered to be in the current century, while those greater than it are deemed to be in the previous century.")]
@@ -367,7 +394,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set the name of the animation used to show/hide the datepicker. Use 'show' (the default), 'slideDown', 'fadeIn', any of the show/hide jQuery UI effects, or '' for no animation.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showAnim
 		/// </summary>
-		[WidgetOption("showAnim", "show")]
 		[Category("Behavior")]
 		[DefaultValue("show")]
 		[Description("Set the name of the animation used to show/hide the datepicker. Use 'show' (the default), 'slideDown', 'fadeIn', any of the show/hide jQuery UI effects, or '' for no animation.")]
@@ -377,7 +403,6 @@ namespace Brew.Webforms.Widgets {
 		/// Whether to show the button panel.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showButtonPanel
 		/// </summary>
-		[WidgetOption("showButtonPanel", false)]
 		[Category("Layout")]
 		[DefaultValue(false)]
 		[Description("Whether to show the button panel.")]
@@ -387,7 +412,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specify where in a multi-month display the current month shows, starting from 0 at the top/left.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showCurrentAtPos
 		/// </summary>
-		[WidgetOption("showCurrentAtPos", 0)]
 		[Category("Appearance")]
 		[DefaultValue(0)]
 		[Description("Specify where in a multi-month display the current month shows, starting from 0 at the top/left.")]
@@ -397,7 +421,6 @@ namespace Brew.Webforms.Widgets {
 		/// Whether to show the month after the year in the header. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showMonthAfterYear
 		/// </summary>
-		[WidgetOption("showMonthAfterYear", false)]
 		[Category("Layout")]
 		[DefaultValue(false)]
 		[Description("Whether to show the month after the year in the header. This attribute is one of the regionalisation attributes.")]
@@ -407,7 +430,6 @@ namespace Brew.Webforms.Widgets {
 		/// Have the datepicker appear automatically when the field receives focus ('focus'), appear only when a button is clicked ('button'), or appear when either event takes place ('both').
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showOn
 		/// </summary>
-		[WidgetOption("showOn", "focus")]
 		[Category("Behavior")]
 		[DefaultValue("focus")]
 		[Description("Have the datepicker appear automatically when the field receives focus ('focus'), appear only when a button is clicked ('button'), or appear when either event takes place ('both').")]
@@ -417,7 +439,6 @@ namespace Brew.Webforms.Widgets {
 		/// If using one of the jQuery UI effects for showAnim, you can provide additional settings for that animation via this option.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showOptions
 		/// </summary>
-		[WidgetOption("showOptions", "{}", Eval = true)]
 		[TypeConverter(typeof(Brew.TypeConverters.JsonObjectConverter))]
 		[Category("Behavior")]
 		[DefaultValue("{}")]
@@ -428,7 +449,6 @@ namespace Brew.Webforms.Widgets {
 		/// Display dates in other months (non-selectable) at the start or end of the current month. To make these days selectable use selectOtherMonths.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showOtherMonths
 		/// </summary>
-		[WidgetOption("showOtherMonths", false)]
 		[Category("Appearance")]
 		[DefaultValue(false)]
 		[Description("Display dates in other months (non-selectable) at the start or end of the current month. To make these days selectable use selectOtherMonths.")]
@@ -438,7 +458,6 @@ namespace Brew.Webforms.Widgets {
 		/// When true a column is added to show the week of the year. The calculateWeek option determines how the week of the year is calculated. You may also want to change the firstDay option.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-showWeek
 		/// </summary>
-		[WidgetOption("showWeek", false)]
 		[Category("Appearance")]
 		[DefaultValue(false)]
 		[Description("When true a column is added to show the week of the year. The calculateWeek option determines how the week of the year is calculated. You may also want to change the firstDay option.")]
@@ -448,7 +467,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set how many months to move when clicking the Previous/Next links.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-stepMonths
 		/// </summary>
-		[WidgetOption("stepMonths", 1)]
 		[Category("Behavior")]
 		[DefaultValue(1)]
 		[Description("Set how many months to move when clicking the Previous/Next links.")]
@@ -458,7 +476,6 @@ namespace Brew.Webforms.Widgets {
 		/// The text to display for the week of the year column heading. This attribute is one of the regionalisation attributes. Use showWeek to display this column.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-weekHeader
 		/// </summary>
-		[WidgetOption("weekHeader", "Wk")]
 		[Category("Appearance")]
 		[DefaultValue("Wk")]
 		[Description("The text to display for the week of the year column heading. This attribute is one of the regionalisation attributes. Use showWeek to display this column.")]
@@ -468,7 +485,6 @@ namespace Brew.Webforms.Widgets {
 		/// Control the range of years displayed in the year drop-down: either relative to today's year (-nn:+nn), relative to the currently selected year (c-nn:c+nn), absolute (nnnn:nnnn), or combinations of these formats (nnnn:-nn). Note that this option only affects what appears in the drop-down, to restrict which dates may be selected use the minDate and/or maxDate options.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-yearRange
 		/// </summary>
-		[WidgetOption("yearRange", "c-10:c+10")]
 		[Category("Data")]
 		[DefaultValue("c-10:c+10")]
 		[Description("Control the range of years displayed in the year drop-down: either relative to today's year (-nn:+nn), relative to the currently selected year (c-nn:c+nn), absolute (nnnn:nnnn), or combinations of these formats (nnnn:-nn). Note that this option only affects what appears in the drop-down, to restrict which dates may be selected use the minDate and/or maxDate options.")]
@@ -478,7 +494,6 @@ namespace Brew.Webforms.Widgets {
 		/// Additional text to display after the year in the month headers. This attribute is one of the regionalisation attributes.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-yearSuffix
 		/// </summary>
-		[WidgetOption("yearSuffix", "")]
 		[Category("Appearance")]
 		[DefaultValue("")]
 		[Description("Additional text to display after the year in the month headers. This attribute is one of the regionalisation attributes.")]
@@ -486,17 +501,5 @@ namespace Brew.Webforms.Widgets {
 
 		#endregion
 
-		#region Widget Events
-		
-		/// <summary>
-		/// Allows you to define your own event when the datepicker is selected. The function receives the selected date as text and the datepicker instance as parameters. this refers to the associated input field.
-		/// Reference: http://api.jqueryui.com/datepicker/#event-onSelect
-		/// </summary>
-		[WidgetEvent("onSelect")]
-		[Category("Action")]
-		[Description("Allows you to define your own event when the datepicker is selected. The function receives the selected date as text and the datepicker instance as parameters. this refers to the associated input field.")]
-		public event EventHandler OnSelect;
-
-		#endregion
 	}
 }

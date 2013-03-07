@@ -121,6 +121,7 @@ namespace Brew.Webforms {
 
 				writer.RenderBeginTag(this.TagKey);
 				base.Render(writer);
+				RenderContents(writer);
 				writer.RenderEndTag();
 			}
 			else {
@@ -133,6 +134,8 @@ namespace Brew.Webforms {
 				this._scriptManager.RegisterScriptDescriptors(this);
 			}
 		}
+
+		protected virtual void RenderContents(HtmlTextWriter write) { }
 
 		private List<KeyValuePair<String, object>> ParseOptions() {
 			var result = new List<KeyValuePair<String, object>>();
