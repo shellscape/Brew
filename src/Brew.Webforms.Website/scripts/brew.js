@@ -27,9 +27,19 @@
 			var widget = $(this),
 				_for = widget.attr('for'),
 				name = widget.attr('name'),
-				data = widget.data();
+				options = widget.data(),
+				postbacks = widget.data('postbacks'),
+				uniqueId = widget.data('uniqueid');
 
-			$('#' + _for)[name](data);
+			$.each(postbacks, function (event) {
+				var postback = this;
+
+				options[event] = function (event, ui) {
+					window.__doPostBack(uniqueId, postback);
+				};
+			});
+
+			$('#' + _for)[name](options);
 		});
 
 		if (!$('#' + stateId).length) {

@@ -32,7 +32,7 @@
 				<li>Dialog</li>
 				<li>Menu</li>
 				<li>Progressbar</li>
-				<li>Slider</li>
+				<li><a href="slider.aspx">Slider</a></li>
 				<li>Spinner</li>
 				<li>Tabs</li>
 				<li>Tooltip</li>

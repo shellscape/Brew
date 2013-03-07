@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Brew.Webforms {
-	
+
 	public class WidgetOption {
 	
 		public WidgetOption(PropertyDescriptor propertyDescriptor) {

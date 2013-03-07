@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+
 using Brew;
 
 namespace Brew.Webforms.Widgets {
@@ -23,15 +24,15 @@ namespace Brew.Webforms.Widgets {
 
 		public Button(String widgetName) : base(widgetName) { } // adds support for Buttonset class.
 
-		public override List<String> GetEvents() {
-			return new List<String>() { "create" };
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { new WidgetEvent("create") };
 		}
 
 		public override List<WidgetOption> GetOptions() {
 			return new List<WidgetOption>() {
-				new WidgetOption(){ Name = "text", DefaultValue = true },
-				new WidgetOption(){ Name = "icons", DefaultValue = "{}" },
-				new WidgetOption(){ Name = "label", DefaultValue = null }
+				new WidgetOption { Name = "text", DefaultValue = true },
+				new WidgetOption { Name = "icons", DefaultValue = "{}" },
+				new WidgetOption { Name = "label", DefaultValue = null }
 			};
 		}
 

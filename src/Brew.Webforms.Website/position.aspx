@@ -6,6 +6,6 @@
 
 	<asp:label runat="server" id="info">Important Information</asp:label>
 
-	<brew:position runat="server" for="info" my="left" at="right" of="textbox" />
+	<brew:position runat="server" for="info" my="top" at="bottom" of="textbox" />
 
 </asp:content>
