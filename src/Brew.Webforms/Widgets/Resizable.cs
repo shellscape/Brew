@@ -14,22 +14,56 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a Control with the jQuery UI Resizable behavior http://api.jqueryui.com/resizable/
 	/// </summary>
-	[TargetControlType(typeof(WebControl))]
-	[TargetControlType(typeof(System.Web.UI.HtmlControls.HtmlControl))]
-	[WidgetEvent("create")]
-	[WidgetEvent("start")]
-	[WidgetEvent("resize")]
-	public class Resizable : Extender {
+	public class Resizable : Widget {
 
 		public Resizable() : base("resizable") { }
 
-		#region "Widget Options"
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("create"),
+				new WidgetEvent("start"),
+				new WidgetEvent("resize"),
+				new WidgetEvent("stop"){ EventName = "Drop" }
+			};
+		}
+
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "alsoResize", DefaultValue = null },
+				new WidgetOption { Name = "animate", DefaultValue = false },
+				new WidgetOption { Name = "animateDuration", DefaultValue = "slow" },
+				new WidgetOption { Name = "animateEasing", DefaultValue = "swing" },
+				new WidgetOption { Name = "aspectRatio", DefaultValue = false }, 
+				new WidgetOption { Name = "autoHide", DefaultValue = false },
+				new WidgetOption { Name = "cancel", DefaultValue = ":input,option" },
+				new WidgetOption { Name = "containment", DefaultValue = null },
+				new WidgetOption { Name = "delay", DefaultValue = 0 },
+				new WidgetOption { Name = "distance", DefaultValue = 1 },
+				new WidgetOption { Name = "ghost", DefaultValue = false },
+				new WidgetOption { Name = "grid", DefaultValue = null },
+				new WidgetOption { Name = "handles", DefaultValue = "e, s, se" },
+				new WidgetOption { Name = "helper", DefaultValue = null },
+				new WidgetOption { Name = "maxHeight", DefaultValue = 0 },
+				new WidgetOption { Name = "maxWidth", DefaultValue = 0 },
+				new WidgetOption { Name = "minHeight", DefaultValue = 10 },
+				new WidgetOption { Name = "minWidth", DefaultValue = 10 },
+			};
+		}
+
+		/// <summary>
+		/// This event is triggered at the end of a resize operation.
+		/// Reference: http://api.jqueryui.com/resizable/#event-stop
+		/// </summary>
+		[Category("Action")]
+		[Description("This event is triggered at the end of a resize operation.")]
+		public event EventHandler Drop;
+
+		#region .    Options    .
 
 		/// <summary>
 		/// Resize these elements synchronous when resizing.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-alsoResize
 		/// </summary>
-		[WidgetOption("alsoResize", null)] // Selector (String)
 		[Category("Behavior")]
 		[DefaultValue(null)]
 		[Description("Resize these elements synchronous when resizing.")]
@@ -39,7 +73,6 @@ namespace Brew.Webforms.Widgets {
 		/// Animates to the final size after resizing.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-animate
 		/// </summary>
-		[WidgetOption("animate", false)]
 		[Category("Appearance")]
 		[DefaultValue(false)]
 		[Description("Animates to the final size after resizing.")]
@@ -49,7 +82,6 @@ namespace Brew.Webforms.Widgets {
 		/// Duration time for animating, in milliseconds. Other possible values: 'slow', 'normal', 'fast'.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-animateDuration
 		/// </summary>
-		[WidgetOption("animateDuration", "slow")] // Integer, String
 		[Category("Behavior")]
 		[DefaultValue("slow")]
 		[Description("Duration time for animating, in milliseconds. Other possible values: 'slow', 'normal', 'fast'.")]
@@ -60,7 +92,6 @@ namespace Brew.Webforms.Widgets {
 		/// Easing effect for animating.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-animateEasing
 		/// </summary>
-		[WidgetOption("animateEasing", "swing")]
 		[Category("Behavior")]
 		[DefaultValue("swing")]
 		[Description("Easing effect for animating.")]
@@ -70,7 +101,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, resizing is constrained by the original aspect ratio. Otherwise a custom aspect ratio can be specified, such as 9 / 16, or 0.5.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-aspectRatio
 		/// </summary>
-		[WidgetOption("aspectRatio", false)] //Boolean, Float
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If set to true, resizing is constrained by the original aspect ratio. Otherwise a custom aspect ratio can be specified, such as 9 / 16, or 0.5.")]
@@ -81,7 +111,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, automatically hides the handles except when the mouse hovers over the element.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-autoHide
 		/// </summary>
-		[WidgetOption("autoHide", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If set to true, automatically hides the handles except when the mouse hovers over the element.")]
@@ -91,7 +120,6 @@ namespace Brew.Webforms.Widgets {
 		/// Prevents resizing if you start on elements matching the selector.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-cancel
 		/// </summary>
-		[WidgetOption("cancel", ":input,option")]
 		[Category("Behavior")]
 		[DefaultValue(":input,option")]
 		[Description("Prevents resizing if you start on elements matching the selector.")]
@@ -101,7 +129,6 @@ namespace Brew.Webforms.Widgets {
 		/// Constrains resizing to within the bounds of the specified element. Possible values: 'parent', 'document', a DOMElement, or a Selector.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-containment
 		/// </summary>
-		[WidgetOption("containment", null)] // Selector (String)
 		[Category("Behavior")]
 		[DefaultValue(null)]
 		[Description("Constrains resizing to within the bounds of the specified element. Possible values: 'parent', 'document', a DOMElement, or a Selector.")]
@@ -111,7 +138,6 @@ namespace Brew.Webforms.Widgets {
 		/// Tolerance, in milliseconds, for when resizing should start. If specified, resizing will not start until after mouse is moved beyond duration. This can help prevent unintended resizing when clicking on an element.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-delay
 		/// </summary>
-		[WidgetOption("delay", 0)]
 		[Category("Behavior")]
 		[DefaultValue(0)]
 		[Description("Tolerance, in milliseconds, for when resizing should start. If specified, resizing will not start until after mouse is moved beyond duration. This can help prevent unintended resizing when clicking on an element.")]
@@ -121,7 +147,6 @@ namespace Brew.Webforms.Widgets {
 		/// Tolerance, in pixels, for when resizing should start. If specified, resizing will not start until after mouse is moved beyond distance. This can help prevent unintended resizing when clicking on an element.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-distance
 		/// </summary>
-		[WidgetOption("distance", 1)]
 		[Category("Behavior")]
 		[DefaultValue(1)]
 		[Description("Tolerance, in pixels, for when resizing should start. If specified, resizing will not start until after mouse is moved beyond distance. This can help prevent unintended resizing when clicking on an element.")]
@@ -131,7 +156,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, a semi-transparent helper element is shown for resizing.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-ghost
 		/// </summary>
-		[WidgetOption("ghost", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If set to true, a semi-transparent helper element is shown for resizing.")]
@@ -141,7 +165,6 @@ namespace Brew.Webforms.Widgets {
 		/// Snaps the resizing element to a grid, every x and y pixels. Array values: [x, y]
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-grid
 		/// </summary>
-		[WidgetOption("grid", null)] // Array, eg. [50, 50]		
 		[TypeConverter(typeof(Int32ArrayConverter))]
 		[Category("Behavior")]
 		[DefaultValue(null)]
@@ -152,7 +175,6 @@ namespace Brew.Webforms.Widgets {
 		/// If specified as a string, should be a comma-split list of any of the following: 'n, e, s, w, ne, se, sw, nw, all'. The necessary handles will be auto-generated by the plugin.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-handles
 		/// </summary>
-		[WidgetOption("handles", "e, s, se")]
 		[Category("Appearance")]
 		[DefaultValue("e, s, se")]
 		[Description("If specified as a string, should be a comma-split list of any of the following: 'n, e, s, w, ne, se, sw, nw, all'. The necessary handles will be auto-generated by the plugin.")]
@@ -162,7 +184,6 @@ namespace Brew.Webforms.Widgets {
 		/// This is the css class that will be added to a proxy element to outline the resize during the drag of the resize handle. Once the resize is complete, the original element is sized.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-helper
 		/// </summary>
-		[WidgetOption("helper", null)] // String
 		[Category("Appearance")]
 		[DefaultValue(null)]
 		[Description("his is the css class that will be added to a proxy element to outline the resize during the drag of the resize handle. Once the resize is complete, the original element is sized.")]
@@ -172,7 +193,6 @@ namespace Brew.Webforms.Widgets {
 		/// This is the maximum height the resizable should be allowed to resize to.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-maxHeight
 		/// </summary>
-		[WidgetOption("maxHeight", 0)]
 		[Category("Layout")]
 		[DefaultValue(0)]
 		[Description("This is the maximum height the resizable should be allowed to resize to.")]
@@ -182,7 +202,6 @@ namespace Brew.Webforms.Widgets {
 		/// This is the maximum width the resizable should be allowed to resize to.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-maxWidth
 		/// </summary>	
-		[WidgetOption("maxWidth", 0)]
 		[Category("Layout")]
 		[DefaultValue(0)]
 		[Description("This is the maximum width the resizable should be allowed to resize to.")]
@@ -192,7 +211,6 @@ namespace Brew.Webforms.Widgets {
 		/// This is the minimum height the resizable should be allowed to resize to.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-minHeight
 		/// </summary>
-		[WidgetOption("minHeight", 10)]
 		[Category("Layout")]
 		[DefaultValue(10)]
 		[Description("This is the minimum height the resizable should be allowed to resize to.")]
@@ -202,26 +220,11 @@ namespace Brew.Webforms.Widgets {
 		/// This is the minimum width the resizable should be allowed to resize to.
 		/// Reference: http://api.jqueryui.com/resizable/#option-option-minWidth
 		/// </summary>
-		[WidgetOption("minWidth", 10)]
 		[Category("Layout")]
 		[DefaultValue(10)]
 		[Description("This is the minimum width the resizable should be allowed to resize to.")]
 		public int MinWidth { get; set; }
 
 		#endregion
-
-		#region Widget Events
-
-		/// <summary>
-		/// This event is triggered at the end of a resize operation.
-		/// Reference: http://api.jqueryui.com/resizable/#event-stop
-		/// </summary>
-		[WidgetEvent("stop")]
-		[Category("Action")]
-		[Description("This event is triggered at the end of a resize operation.")]
-		public event EventHandler Drop;
-
-		#endregion
-		
 	}
 }

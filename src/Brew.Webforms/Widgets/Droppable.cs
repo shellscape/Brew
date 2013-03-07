@@ -15,24 +15,48 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a WebControl or HtmlControl with jQuery UI Droppable http://api.jqueryui.com/droppable
 	/// </summary>
-	[TargetControlType(typeof(WebControl))]
-	[TargetControlType(typeof(HtmlControl))]
-	[WidgetEvent("create")]
-	[WidgetEvent("activate")]
-	[WidgetEvent("deactivate")]
-	[WidgetEvent("over")]
-	[WidgetEvent("out")]
-	public class Droppable : Extender, IAutoPostBackWidget {
+	public class Droppable : Widget, IAutoPostBackWidget {
 
 		public Droppable() : base("droppable") { }
 
-    #region Widget Options
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("drop") { CausesPostBack = true },
+				new WidgetEvent("create"),
+				new WidgetEvent("activate"),
+				new WidgetEvent("deactivate"),
+				new WidgetEvent("over"),
+				new WidgetEvent("out")
+			};
+		}
+
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "accept", DefaultValue = "*" },
+				new WidgetOption { Name = "activeClass", DefaultValue = false },
+				new WidgetOption { Name = "addClasses", DefaultValue = true },
+				new WidgetOption { Name = "greedy", DefaultValue = false },
+				new WidgetOption { Name = "hoverClass", DefaultValue = false },
+				new WidgetOption { Name = "scope", DefaultValue = "default" },
+				new WidgetOption { Name = "tolerance", DefaultValue = "intersect" }
+			};
+		}
+
+		/// <summary>
+		/// This event is triggered when an accepted draggable is dropped 'over' (within the tolerance of) this droppable. In the callback, $(this) represents the droppable the draggable is dropped on.
+		/// ui.draggable represents the draggable.
+		/// Reference: http://api.jqueryui.com/droppable/#event-drop
+		/// </summary>
+		[Category("Action")]
+		[Description("This event is triggered when an accepted draggable is dropped 'over' (within the tolerance of) this droppable. In the callback, $(this) represents the droppable the draggable is dropped on.")]
+		public event EventHandler Drop;
+
+    #region .    Options    .
 
     /// <summary>
     /// All draggables that match the selector will be accepted. If a function is specified, the function will be called for each draggable on the page (passed as the first argument to the function), to provide a custom filter. The function should return true if the draggable should be accepted.
     /// Reference: http://api.jqueryui.com/droppable/#option-accept
     /// </summary>
-    [WidgetOption("accept", "*")]
 		[Category("Behavior")]
 		[DefaultValue("*")]
 		[Description("All draggables that match the selector will be accepted. If a function is specified, the function will be called for each draggable on the page (passed as the first argument to the function), to provide a custom filter. The function should return true if the draggable should be accepted.")]
@@ -42,7 +66,6 @@ namespace Brew.Webforms.Widgets {
     /// If specified, the class will be added to the droppable while an acceptable draggable is being dragged.
     /// Reference: http://api.jqueryui.com/droppable/#option-activeClass
     /// </summary>
-    [WidgetOption("activeClass", false)]
 		[Category("Layout")]
 		[DefaultValue(false)]
 		[Description("If specified, the class will be added to the droppable while an acceptable draggable is being dragged.")]
@@ -53,7 +76,6 @@ namespace Brew.Webforms.Widgets {
     /// If set to false, will prevent the ui-droppable class from being added. This may be desired as a performance optimization when calling .droppable() init on many hundreds of elements.
     /// Reference: http://api.jqueryui.com/droppable/#option-addClasses
     /// </summary>
-    [WidgetOption("addClasses", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("If set to false, will prevent the ui-droppable class from being added. This may be desired as a performance optimization when calling .droppable() init on many hundreds of elements.")]
@@ -63,7 +85,6 @@ namespace Brew.Webforms.Widgets {
     /// If true, will prevent event propagation on nested droppables.
     /// Reference: http://api.jqueryui.com/droppable/#option-greedy
     /// </summary>
-    [WidgetOption("greedy", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If true, will prevent event propagation on nested droppables.")]
@@ -73,7 +94,6 @@ namespace Brew.Webforms.Widgets {
     /// If specified, the class will be added to the droppable while an acceptable draggable is being hovered.
     /// Reference: http://api.jqueryui.com/droppable/#option-hoverClass
     /// </summary>
-    [WidgetOption("hoverClass", false)]
 		[Category("Layout")]
 		[DefaultValue(false)]
 		[Description("If specified, the class will be added to the droppable while an acceptable draggable is being hovered.")]
@@ -84,7 +104,6 @@ namespace Brew.Webforms.Widgets {
     /// Used to group sets of draggable and droppable items, in addition to droppable's accept option. A draggable with the same scope value as a droppable will be accepted.
     /// Reference: http://api.jqueryui.com/droppable/#option-scope
     /// </summary>
-    [WidgetOption("scope", "default")]
 		[Category("Behavior")]
 		[DefaultValue("default")]
 		[Description("Used to group sets of draggable and droppable items, in addition to droppable's accept option. A draggable with the same scope value as a droppable will be accepted.")]
@@ -94,27 +113,12 @@ namespace Brew.Webforms.Widgets {
     /// Specifies which mode to use for testing whether a draggable is 'over' a droppable. Possible values: 'fit', 'intersect', 'pointer', 'touch'.
     /// Reference: http://api.jqueryui.com/droppable/#option-tolerance
     /// </summary>
-    [WidgetOption("tolerance", "intersect")]
 		[Category("Behavior")]
 		[DefaultValue("intersect")]
 		[Description("Specifies which mode to use for testing whether a draggable is 'over' a droppable. Possible values: 'fit', 'intersect', 'pointer', 'touch'.")]
     public string Tolerance { get; set; }
 
     #endregion
-
-		#region Widget Events
-
-		/// <summary>
-		/// This event is triggered when an accepted draggable is dropped 'over' (within the tolerance of) this droppable. In the callback, $(this) represents the droppable the draggable is dropped on.
-		/// ui.draggable represents the draggable.
-		/// Reference: http://api.jqueryui.com/droppable/#event-drop
-		/// </summary>
-		[WidgetEvent("drop", AutoPostBack = true)]
-		[Category("Action")]
-		[Description("This event is triggered when an accepted draggable is dropped 'over' (within the tolerance of) this droppable. In the callback, $(this) represents the droppable the draggable is dropped on.")]
-		public event EventHandler Drop;
-
-		#endregion
 
 	}
 }
