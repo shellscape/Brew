@@ -196,11 +196,14 @@ namespace Brew.Webforms {
 
 				var field = type.GetField(@event.Name, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
 				var del = (Delegate)field.GetValue(this);
-				var list = del.GetInvocationList();
 
-				// add only those for which event handlers are assigned
-				if (list.Length > 0 && e.CausesPostBack) {
-					postbacks.Add(e.Name, e.DataChangedEvent ? @event.Name : null);
+				if (del != null) {
+					var list = del.GetInvocationList();
+
+					// add only those for which event handlers are assigned
+					if (list != null && list.Length > 0 && e.CausesPostBack) {
+						postbacks.Add(e.Name, e.DataChangedEvent ? @event.Name : null);
+					}
 				}
 			}
 
@@ -445,10 +448,13 @@ namespace Brew.Webforms {
 
 			var field = type.GetField(@event.Name, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
 			var del = field.GetValue(this) as MulticastDelegate;
-			var list = del.GetInvocationList();
 
-			if (list.Length > 0) {
-				del.DynamicInvoke(new object[] { this, EventArgs.Empty });
+			if (del != null) {
+				var list = del.GetInvocationList();
+
+				if ( list != null && list.Length > 0) {
+					del.DynamicInvoke(new object[] { this, EventArgs.Empty });
+				}
 			}
 		}
 
