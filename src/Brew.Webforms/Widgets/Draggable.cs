@@ -15,7 +15,7 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a WebControl or HtmlControl with jQuery UI Draggable http://api.jqueryui.com/draggable
 	/// </summary>
-	public class Draggable : Widget, IAutoPostBackWidget {
+	public class Draggable : Widget, IAutoPostBack {
 
 		public Draggable() : base("draggable") { }
 

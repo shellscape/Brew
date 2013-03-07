@@ -15,7 +15,7 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a WebControl or HtmlControl with jQuery UI Droppable http://api.jqueryui.com/droppable
 	/// </summary>
-	public class Droppable : Widget, IAutoPostBackWidget {
+	public class Droppable : Widget, IAutoPostBack {
 
 		public Droppable() : base("droppable") { }
 

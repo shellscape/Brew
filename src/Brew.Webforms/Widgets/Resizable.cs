@@ -23,7 +23,7 @@ namespace Brew.Webforms.Widgets {
 				new WidgetEvent("create"),
 				new WidgetEvent("start"),
 				new WidgetEvent("resize"),
-				new WidgetEvent("stop"){ EventName = "Drop" }
+				new WidgetEvent("stop"){ CausesPostBack = true, EventName = "Drop" }
 			};
 		}
 

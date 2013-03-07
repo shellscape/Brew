@@ -86,7 +86,7 @@
     <Compile Include="Widgets\Resizable.cs" />
     <Compile Include="Widgets\Selectable.cs" />
     <Compile Include="Widgets\Slider.cs" />
-    <Compile Include="Widgets\old\Sortable.cs" />
+    <Compile Include="Widgets\Sortable.cs" />
     <Compile Include="Widgets\old\Spinner.cs" />
     <Compile Include="Widgets\old\TabPage.cs" />
     <Compile Include="Widgets\old\Tabs.cs" />

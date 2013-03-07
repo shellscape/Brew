@@ -26,8 +26,8 @@ namespace Brew.Webforms.Widgets {
 			new WidgetEvent("start"),
 			new WidgetEvent("stop"),
 			new WidgetEvent("unselecting"),
-			new WidgetEvent("selected"),
-			new WidgetEvent("unselected")
+			new WidgetEvent("selected") { CausesPostBack = true },
+			new WidgetEvent("unselected") { CausesPostBack = true }
 			};
 		}
 

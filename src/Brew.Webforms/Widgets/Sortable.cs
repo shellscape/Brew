@@ -16,21 +16,80 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a Control with the jQuery UI Sortable behavior http://api.jqueryui.com/sortable/
 	/// </summary>
-	[TargetControlType(typeof(WebControl))]
-	[TargetControlType(typeof(System.Web.UI.HtmlControls.HtmlControl))]
-	[WidgetEvent("create")]
-	[WidgetEvent("start")]
-	[WidgetEvent("sort")]
-	[WidgetEvent("change")]
-	[WidgetEvent("beforeStop")]
-	[WidgetEvent("update")]
-	[WidgetEvent("over")]
-	[WidgetEvent("out")]
-	[WidgetEvent("activate")]
-	[WidgetEvent("deactivate")]
-	public class Sortable : Extender {
+	public class Sortable : Widget {
 
 		public Sortable() : base("sortable") { }
+
+		public override List<WidgetEvent> GetEvents() {
+			return new List<WidgetEvent>() { 
+				new WidgetEvent("create"),
+				new WidgetEvent("start"),
+				new WidgetEvent("sort"),
+				new WidgetEvent("change"),
+				new WidgetEvent("beforeStop"),
+				new WidgetEvent("update"),
+				new WidgetEvent("over"),
+				new WidgetEvent("out"),
+				new WidgetEvent("activate"),
+				new WidgetEvent("deactivate"),
+				new WidgetEvent("stop") { CausesPostBack = true },
+				new WidgetEvent("receive") { CausesPostBack = true },
+				new WidgetEvent("remove") { CausesPostBack = true }
+			};
+		}
+
+		public override List<WidgetOption> GetOptions() {
+			return new List<WidgetOption>() {
+				new WidgetOption { Name = "appendTo", DefaultValue = "parent" }, 
+				new WidgetOption { Name = "axis", DefaultValue = false }, 
+				new WidgetOption { Name = "cancel", DefaultValue = ":input,button" }, 
+				new WidgetOption { Name = "connectWith", DefaultValue = false }, 
+				new WidgetOption { Name = "containment", DefaultValue = false }, 
+				new WidgetOption { Name = "cursor", DefaultValue = "auto" }, 
+				new WidgetOption { Name = "cursorAt", DefaultValue = "{}" }, 
+				new WidgetOption { Name = "delay", DefaultValue = 0 }, 
+				new WidgetOption { Name = "distance", DefaultValue = 1 }, 
+				new WidgetOption { Name = "dropOnEmpty", DefaultValue = true }, 
+				new WidgetOption { Name = "forceHelperSize", DefaultValue = false }, 
+				new WidgetOption { Name = "forcePlaceholderSize", DefaultValue = false }, 
+				new WidgetOption { Name = "grid", DefaultValue = null }, 
+				new WidgetOption { Name = "handle", DefaultValue = false }, 
+				new WidgetOption { Name = "helper", DefaultValue = "original" }, 
+				new WidgetOption { Name = "items", DefaultValue = "> *" }, 
+				new WidgetOption { Name = "opacity", DefaultValue = 1 }, 
+				new WidgetOption { Name = "placeholder", DefaultValue = false }, 
+				new WidgetOption { Name = "revert", DefaultValue = false }, 
+				new WidgetOption { Name = "scroll", DefaultValue = true }, 
+				new WidgetOption { Name = "scrollSensitivity", DefaultValue = 20 }, 
+				new WidgetOption { Name = "scrollSpeed", DefaultValue = 20 }, 
+				new WidgetOption { Name = "tolerance", DefaultValue = "intersect" }, 
+				new WidgetOption { Name = "zIndex", DefaultValue = 1000 }
+			};
+		}
+
+		/// <summary>
+		/// This event is triggered when sorting has stopped.
+		/// Reference: http://api.jqueryui.com/sortable/#event-stop
+		/// </summary>
+		[Category("Action")]
+		[Description("This event is triggered when sorting has stopped.")]
+		public event EventHandler Stop;
+
+		/// <summary>
+		/// This event is triggered when a connected sortable list has received an item from another list.
+		/// Reference: http://api.jqueryui.com/sortable/#event-receive
+		/// </summary>
+		[Category("Action")]
+		[Description("This event is triggered when a connected sortable list has received an item from another list.")]
+		public event EventHandler Receive;
+
+		/// <summary>
+		/// This event is triggered when a sortable item has been dragged out from the list and into another.
+		/// Reference: http://api.jqueryui.com/sortable/#event-remove
+		/// </summary>
+		[Category("Action")]
+		[Description("This event is triggered when a sortable item has been dragged out from the list and into another.")]
+		public event EventHandler Remove;
 
 		#region Widget Options
 
@@ -38,7 +97,6 @@ namespace Brew.Webforms.Widgets {
 		/// Defines where the helper that moves with the mouse is being appended to during the drag (for example, to resolve overlap/zIndex issues).
 		/// Reference: http://api.jqueryui.com/sortable/#option-appendTo
 		/// </summary>
-		[WidgetOption("appendTo", "parent")]
 		[Category("Behavior")]
 		[DefaultValue("parent")]
 		[Description("Defines where the helper that moves with the mouse is being appended to during the drag (for example, to resolve overlap/zIndex issues).")]
@@ -48,7 +106,6 @@ namespace Brew.Webforms.Widgets {
 		/// If defined, the items can be dragged only horizontally or vertically. Possible values:'x', 'y'.
 		/// Reference: http://api.jqueryui.com/sortable/#option-axis
 		/// </summary>
-		[WidgetOption("axis", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If defined, the items can be dragged only horizontally or vertically. Possible values:'x', 'y'.")]
@@ -59,7 +116,6 @@ namespace Brew.Webforms.Widgets {
 		/// Prevents sorting if you start on elements matching the selector.
 		/// Reference: http://api.jqueryui.com/sortable/#option-cancel
 		/// </summary>
-		[WidgetOption("cancel", ":input,button")]
 		[Category("Behavior")]
 		[DefaultValue(":input,button")]
 		[Description("Prevents sorting if you start on elements matching the selector.")]
@@ -69,7 +125,6 @@ namespace Brew.Webforms.Widgets {
 		/// Takes a jQuery selector with items that also have sortables applied. If used, the sortable is now connected to the other one-way, so you can drag from this sortable to the other.
 		/// Reference: http://api.jqueryui.com/sortable/#option-connectWith
 		/// </summary>
-		[WidgetOption("connectWith", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Takes a jQuery selector with items that also have sortables applied. If used, the sortable is now connected to the other one-way, so you can drag from this sortable to the other.")]
@@ -81,7 +136,6 @@ namespace Brew.Webforms.Widgets {
 		/// Note: the element specified for containment must have a calculated width and height (though it need not be explicit), so for example, if you have float:left sortable children and specify containment:'parent' be sure to have float:left on the sortable/parent container as well or it will have height: 0, causing undefined behavior.
 		/// Reference: http://api.jqueryui.com/sortable/#option-containment
 		/// </summary>
-		[WidgetOption("containment", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Constrains dragging to within the bounds of the specified element - can be a DOM element, 'parent', 'document', 'window', or a jQuery selector. \nNote: the element specified for containment must have a calculated width and height (though it need not be explicit), so for example, if you have float:left sortable children and specify containment:'parent' be sure to have float:left on the sortable/parent container as well or it will have height: 0, causing undefined behavior.")]
@@ -92,7 +146,6 @@ namespace Brew.Webforms.Widgets {
 		/// Defines the cursor that is being shown while sorting.
 		/// Reference: http://api.jqueryui.com/sortable/#option-cursor
 		/// </summary>
-		[WidgetOption("cursor", "auto")]
 		[Category("Appearance")]
 		[DefaultValue("auto")]
 		[Description("Defines the cursor that is being shown while sorting.")]
@@ -102,7 +155,6 @@ namespace Brew.Webforms.Widgets {
 		/// Moves the sorting element or helper so the cursor always appears to drag from the same position. Coordinates can be given as a hash using a combination of one or two keys: { top, left, right, bottom }.
 		/// Reference: http://api.jqueryui.com/sortable/#option-cursorAt
 		/// </summary>
-		[WidgetOption("cursorAt", "{}", Eval=true)]
 		[Category("Behavior")]
 		[DefaultValue("{}")]
 		[Description("Moves the sorting element or helper so the cursor always appears to drag from the same position. Coordinates can be given as a hash using a combination of one or two keys: { top, left, right, bottom }.")]
@@ -112,7 +164,6 @@ namespace Brew.Webforms.Widgets {
 		/// Time in milliseconds to define when the sorting should start. It helps preventing unwanted drags when clicking on an element.
 		/// Reference: http://api.jqueryui.com/sortable/#option-delay
 		/// </summary>
-		[WidgetOption("delay", 0)]
 		[Category("Behavior")]
 		[DefaultValue(0)]
 		[Description("Time in milliseconds to define when the sorting should start. It helps preventing unwanted drags when clicking on an element.")]
@@ -122,7 +173,6 @@ namespace Brew.Webforms.Widgets {
 		/// Tolerance, in pixels, for when sorting should start. If specified, sorting will not start until after mouse is dragged beyond distance. Can be used to allow for clicks on elements within a handle.
 		/// Reference: http://api.jqueryui.com/sortable/#option-distance
 		/// </summary>
-		[WidgetOption("distance", 1)]
 		[Category("Behavior")]
 		[DefaultValue(1)]
 		[Description("Tolerance, in pixels, for when sorting should start. If specified, sorting will not start until after mouse is dragged beyond distance. Can be used to allow for clicks on elements within a handle.")]
@@ -132,7 +182,6 @@ namespace Brew.Webforms.Widgets {
 		/// If false items from this sortable can't be dropped to an empty linked sortable.
 		/// Reference: http://api.jqueryui.com/sortable/#option-dropOnEmpty
 		/// </summary>
-		[WidgetOption("dropOnEmpty", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("If false items from this sortable can't be dropped to an empty linked sortable.")]
@@ -142,7 +191,6 @@ namespace Brew.Webforms.Widgets {
 		/// If true, forces the helper to have a size.
 		/// Reference: http://api.jqueryui.com/sortable/#option-forceHelperSize
 		/// </summary>
-		[WidgetOption("forceHelperSize", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If true, forces the helper to have a size.")]
@@ -152,7 +200,6 @@ namespace Brew.Webforms.Widgets {
 		/// If true, forces the placeholder to have a size.
 		/// Reference: http://api.jqueryui.com/sortable/#option-forcePlaceholderSize
 		/// </summary>
-		[WidgetOption("forcePlaceholderSize", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If true, forces the placeholder to have a size.")]
@@ -162,7 +209,6 @@ namespace Brew.Webforms.Widgets {
 		/// Snaps the sorting element or helper to a grid, every x and y pixels. Array values: [x, y]
 		/// Reference: http://api.jqueryui.com/sortable/#option-grid
 		/// </summary>
-		[WidgetOption("grid", null)]
 		[TypeConverter(typeof(Int32ArrayConverter))]
 		[Category("Behavior")]
 		[DefaultValue(null)]
@@ -173,7 +219,6 @@ namespace Brew.Webforms.Widgets {
 		/// Restricts sort start click to the specified element.
 		/// Reference: http://api.jqueryui.com/sortable/#option-handle
 		/// </summary>
-		[WidgetOption("handle", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("Restricts sort start click to the specified element.")]
@@ -184,7 +229,6 @@ namespace Brew.Webforms.Widgets {
 		/// Allows for a helper element to be used for dragging display. Possible values: 'original', 'clone'
 		/// Reference: http://api.jqueryui.com/sortable/#option-helper
 		/// </summary>
-		[WidgetOption("helper", "original")]
 		[Category("Behavior")]
 		[DefaultValue("original")]
 		[Description("Allows for a helper element to be used for dragging display. Possible values: 'original', 'clone'")]
@@ -194,7 +238,6 @@ namespace Brew.Webforms.Widgets {
 		/// Specifies which items inside the element should be sortable.
 		/// Reference: http://api.jqueryui.com/sortable/#option-items
 		/// </summary>
-		[WidgetOption("items", "> *")]
 		[Category("Behavior")]
 		[DefaultValue("> *")]
 		[Description("Specifies which items inside the element should be sortable.")]
@@ -204,7 +247,6 @@ namespace Brew.Webforms.Widgets {
 		/// Defines the opacity of the helper while sorting. From 0.01 to 1
 		/// Reference: http://api.jqueryui.com/sortable/#option-opacity
 		/// </summary>
-		[WidgetOption("opacity", 1)]
 		[Category("Appearance")]
 		[DefaultValue(1)]
 		[Description("Defines the opacity of the helper while sorting. From 0.01 to 1")]
@@ -214,7 +256,6 @@ namespace Brew.Webforms.Widgets {
 		/// Class that gets applied to the otherwise white space.
 		/// Reference: http://api.jqueryui.com/sortable/#option-placeholder
 		/// </summary>
-		[WidgetOption("placeholder", false)]
 		[Category("Appearance")]
 		[DefaultValue(false)]
 		[Description("Class that gets applied to the otherwise white space.")]
@@ -225,7 +266,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, the item will be reverted to its new DOM position with a smooth animation. Optionally, it can also be set to a number that controls the duration of the animation in ms.
 		/// Reference: http://api.jqueryui.com/sortable/#option-revert
 		/// </summary>
-		[WidgetOption("revert", false)]
 		[Category("Behavior")]
 		[DefaultValue(false)]
 		[Description("If set to true, the item will be reverted to its new DOM position with a smooth animation. Optionally, it can also be set to a number that controls the duration of the animation in ms.")]
@@ -236,7 +276,6 @@ namespace Brew.Webforms.Widgets {
 		/// If set to true, the page scrolls when coming to an edge.
 		/// Reference: http://api.jqueryui.com/sortable/#option-scroll
 		/// </summary>
-		[WidgetOption("scroll", true)]
 		[Category("Behavior")]
 		[DefaultValue(true)]
 		[Description("If set to true, the page scrolls when coming to an edge.")]
@@ -246,7 +285,6 @@ namespace Brew.Webforms.Widgets {
 		/// Defines how near the mouse must be to an edge to start scrolling.
 		/// Reference: http://api.jqueryui.com/sortable/#option-scrollSensitivity
 		/// </summary>
-		[WidgetOption("scrollSensitivity", 20)]
 		[Category("Behavior")]
 		[DefaultValue(20)]
 		[Description("Defines how near the mouse must be to an edge to start scrolling.")]
@@ -256,7 +294,6 @@ namespace Brew.Webforms.Widgets {
 		/// The speed at which the window should scroll once the mouse pointer gets within the scrollSensitivity distance.
 		/// Reference: http://api.jqueryui.com/sortable/#option-scrollSpeed
 		/// </summary>
-		[WidgetOption("scrollSpeed", 20)]
 		[Category("Behavior")]
 		[DefaultValue(20)]
 		[Description("The speed at which the window should scroll once the mouse pointer gets within the scrollSensitivity distance.")]
@@ -266,7 +303,6 @@ namespace Brew.Webforms.Widgets {
 		/// This is the way the reordering behaves during drag. Possible values: 'intersect', 'pointer'. In some setups, 'pointer' is more natural.
 		/// Reference: http://api.jqueryui.com/sortable/#option-tolerance
 		/// </summary>
-		[WidgetOption("tolerance", "intersect")]
 		[Category("Behavior")]
 		[DefaultValue("intersect")]
 		[Description("This is the way the reordering behaves during drag. Possible values: 'intersect', 'pointer'. In some setups, 'pointer' is more natural.")]
@@ -276,42 +312,10 @@ namespace Brew.Webforms.Widgets {
 		/// Z-index for element/helper while being sorted.
 		/// Reference: http://api.jqueryui.com/sortable/#option-zIndex
 		/// </summary>
-		[WidgetOption("zIndex", 1000)]
 		[Category("Layout")]
 		[DefaultValue(1000)]
 		[Description("Z-index for element/helper while being sorted.")]
 		public int ZIndex { get; set; }
-
-		#endregion
-
-		#region Widget Events
-
-		/// <summary>
-		/// This event is triggered when sorting has stopped.
-		/// Reference: http://api.jqueryui.com/sortable/#event-stop
-		/// </summary>
-		[WidgetEvent("stop")]
-		[Category("Action")]
-		[Description("This event is triggered when sorting has stopped.")]
-		public event EventHandler Stop;
-
-		/// <summary>
-		/// This event is triggered when a connected sortable list has received an item from another list.
-		/// Reference: http://api.jqueryui.com/sortable/#event-receive
-		/// </summary>
-		[WidgetEvent("receive")]
-		[Category("Action")]
-		[Description("This event is triggered when a connected sortable list has received an item from another list.")]
-		public event EventHandler Receive;
-
-		/// <summary>
-		/// This event is triggered when a sortable item has been dragged out from the list and into another.
-		/// Reference: http://api.jqueryui.com/sortable/#event-remove
-		/// </summary>
-		[WidgetEvent("remove")]
-		[Category("Action")]
-		[Description("This event is triggered when a sortable item has been dragged out from the list and into another.")]
-		public event EventHandler Remove;
 
 		#endregion
 
