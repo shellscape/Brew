@@ -34,10 +34,10 @@ namespace Brew.TypeConverters {
 					stringValue = stringValue.Substring(0, stringValue.Length - 1);
 				}
 
-				return stringValue
-										.Split(new[] { ',' })
-										.Select(s => int.Parse(s, CultureInfo.InvariantCulture))
-										.ToArray<int>();
+				var parts = stringValue.Split(new[] { ',' });
+				var array = parts.Select(s => int.Parse(s, CultureInfo.InvariantCulture)).ToArray<int>();
+
+				return array;
 			}
 			// handle data coming back from json, automatically converted into an arraylist rather than a string.
 			else {

@@ -138,6 +138,7 @@ namespace Brew.Webforms {
 			var result = new List<KeyValuePair<String, object>>();
 			var options = GetOptions();
 			var type = this.GetType();
+			var js = new JavaScriptSerializer();
 
 			options.Add(new WidgetOption() { Name = "disabled", DefaultValue = false });
 
@@ -158,17 +159,14 @@ namespace Brew.Webforms {
 					allow = true;
 				}
 
-				if (allow) {
-					var outValue = Convert.ToString(value);
-
-					if (value is bool) {
-						outValue = outValue.ToLower();
-					}
-
-					var pair = new KeyValuePair<string, object>(option.Name, outValue);
-
-					result.Add(pair);
+				if (!allow) {
+					continue;
 				}
+
+				var outValue = value is String ? value : js.Serialize(value);
+				var pair = new KeyValuePair<string, object>(option.Name, outValue);
+
+				result.Add(pair);
 			}
 
 			return result;
@@ -385,7 +383,7 @@ namespace Brew.Webforms {
 		public Control TargetControl {
 			get {
 				if (this._target == null) {
-					this._target = this.TagKey == HtmlTextWriterTag.Unknown ? FindControl(this.For) : this; 
+					this._target = this.TagKey == HtmlTextWriterTag.Unknown ? FindControl(this.For) : this;
 				}
 
 				return this._target;

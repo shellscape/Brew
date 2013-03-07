@@ -74,6 +74,7 @@ namespace Brew.Webforms.Widgets {
 		/// Whether to slide handle smoothly when user click outside handle on the bar. Will also accept a string representing one of the three predefined speeds ("slow", "normal", or "fast") or the number of milliseconds to run the animation (e.g. 1000).
 		/// Reference: http://api.jqueryui.com/slider/#option-animate
 		/// </summary>
+		[TypeConverter(typeof(StringToObjectConverter))]
 		[DefaultValue(false)]
 		[Description("Whether to slide handle smoothly when user click outside handle on the bar. Will also accept a string representing one of the three predefined speeds ('slow', 'normal', or 'fast') or the number of milliseconds to run the animation (e.g. 1000).")]
 		[Category("Appearance")]
