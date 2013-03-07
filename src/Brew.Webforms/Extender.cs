@@ -24,6 +24,11 @@ namespace Brew.Webforms {
 			SetDefaultOptions();
 		}
 
+		public String @for {
+			get { return this.TargetControlID; }
+			set { this.TargetControlID = value; }
+		}
+
 		[Browsable(false)]
 		private WidgetState WidgetState { get { return this._widgetState; } }
 

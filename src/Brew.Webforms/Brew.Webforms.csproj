@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>1591,1592,1573,1571,1570,1572,0169,67</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,6 +62,7 @@
     <Compile Include="IWidget.cs" />
     <Compile Include="TypeConverters\AutocompleteListConverter.cs" />
     <Compile Include="TypeConverters\AutocompleteSourceConverter.cs" />
+    <Compile Include="Widget.cs" />
     <Compile Include="Widgets\Accordion.cs" />
     <Compile Include="Widgets\AccordionPanel.cs" />
     <Compile Include="Widgets\Autocomplete.cs" />
