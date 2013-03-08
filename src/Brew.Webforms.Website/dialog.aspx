@@ -11,9 +11,9 @@
 		<p>This is an animated dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
 	</div>
 
-<div id="confirm" title="Empty the recycle bin?" runat="server">
-  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
-</div>
+	<div id="confirm" title="Empty the recycle bin?" runat="server">
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+	</div>
 
 	<button id="basic-trigger" type="button">open basic dialog</button>
 	<button id="animatedtrigger" runat="server" type="button">open animated dialog</button>

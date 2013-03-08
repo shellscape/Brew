@@ -30,7 +30,7 @@
 				<li><a href="button.aspx">Button</a></li>
 				<li><a href="datepicker.aspx">Datepicker</a></li>
 				<li><a href="dialog.aspx">Dialog</a></li>
-				<li>Menu</li>
+				<li><a href="menu.aspx">Menu</a></li>
 				<li>Progressbar</li>
 				<li><a href="slider.aspx">Slider</a></li>
 				<li>Spinner</li>
