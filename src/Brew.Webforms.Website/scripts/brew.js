@@ -63,6 +63,23 @@
 				};
 			});
 
+			if (name == 'dialog'){
+				if (options.trigger) {
+					$(options.trigger).click(function (e) {
+						$('#' + _for).dialog('open');
+						e.preventDefault();
+					});
+				}
+
+				widget.data('buttons'); // running into a weird bug here where options.buttons is undefined unless we access the button data directly.
+
+				if (options.buttons) {
+					$.each(options.buttons, function (label) {
+						options.buttons[label] = eval(this);
+					});
+				}
+			}
+
 			$('#' + _for)[name](options);
 		});
 
@@ -75,6 +92,7 @@
 	Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () { ready(); }); // handles adding the jquery ui css on partial postback, if it hasn't been already.
 
 	window.__brew = {
+
 		onsubmit: function () {
 			var input = $('#' + stateId),
 				options = [];
@@ -101,6 +119,10 @@
 			});
 
 			input.val(JSON.stringify(options));
+		},
+
+		closedialog: function () {
+			$(this).dialog("close");
 		}
 	};
 	

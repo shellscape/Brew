@@ -72,6 +72,7 @@
     <Compile Include="Widgets\Buttonset.cs" />
     <Compile Include="Widgets\Datepicker.cs" />
     <Compile Include="Widgets\Dialog.cs" />
+    <Compile Include="Widgets\DialogButton.cs" />
     <Compile Include="Widgets\Draggable.cs" />
     <Compile Include="Widgets\Droppable.cs" />
     <Compile Include="IAutoPostBack.cs" />

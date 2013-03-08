@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Web.Script.Serialization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -17,9 +18,37 @@ namespace Brew.Webforms.Widgets {
 	/// <summary>
 	/// Extend a Control, WebControl or HtmlControl with the jQuery UI Dialog http://jqueryui.com/demos/dialog/
 	/// </summary>
+	[ParseChildren(typeof(DialogButton), DefaultProperty = "Buttons", ChildrenAsProperties = true)]
 	public class Dialog : Widget {
 
-		public Dialog() : base("dialog") { }
+		public Dialog() : base("dialog") {
+			this.Buttons = new DialogButtonList();
+
+			EventHandler handler = delegate(object s, EventArgs e) {
+				var js = new JavaScriptSerializer();
+				var dict = new Dictionary<String, String>();
+
+				foreach (var button in this.Buttons) {
+					var key = button.Text;
+					String value = button.Action;
+
+					if (String.IsNullOrEmpty(key)) {
+						key = "Button " + this.Buttons.IndexOf(button);
+					}
+
+					if (button.CloseDialog) {
+						value = "window.__brew && window.__brew.closedialog";
+					}
+
+					dict.Add(key, value);
+
+					this._Buttons = js.Serialize(dict);
+				}
+
+			};
+
+			this.Buttons.Modified += handler;
+		}
 
 		public override List<WidgetEvent> GetEvents() {
 			return new List<WidgetEvent>() { 
@@ -40,7 +69,7 @@ namespace Brew.Webforms.Widgets {
 		public override List<WidgetOption> GetOptions() {
 			return new List<WidgetOption>() {
 				new WidgetOption { Name = "autoOpen", DefaultValue = true },
-				new WidgetOption { Name = "buttons", DefaultValue = "{}" },
+				new WidgetOption { Name = "buttons", DefaultValue = "{}", PropertyName = "_Buttons" },
 				new WidgetOption { Name = "closeOnEscape", DefaultValue = true },
 				new WidgetOption { Name = "closeText", DefaultValue = "close" },
 				new WidgetOption { Name = "dialogClass", DefaultValue = "" },
@@ -58,7 +87,8 @@ namespace Brew.Webforms.Widgets {
 				new WidgetOption { Name = "stack", DefaultValue = true },
 				new WidgetOption { Name = "title", DefaultValue = "" },
 				new WidgetOption { Name = "width", DefaultValue = 300 },
-				new WidgetOption { Name = "zIndex", DefaultValue = 1000 }
+				new WidgetOption { Name = "zIndex", DefaultValue = 1000 },
+				new WidgetOption { Name = "trigger", DefaultValue = "" }
 			};
 		}
 
@@ -69,6 +99,37 @@ namespace Brew.Webforms.Widgets {
 		[Category("Action")]
 		[Description("This event is triggered when the dialog is closed.")]
 		public event EventHandler Close;
+
+		/// <summary>
+		/// Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked.  The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object.
+		/// Reference: http://jqueryui.com/demos/dialog/#buttons
+		/// </summary>
+		[PersistenceMode(PersistenceMode.InnerProperty)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+		[TemplateContainer(typeof(DialogButton))]
+		[Description("Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked.  The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object.")]
+		[Category("Appearance")]
+		public DialogButtonList Buttons { get; private set; }
+
+		/// <summary>
+		/// The jQuery selector or Control ID for the element to be used as a trigger to open the dialog.
+		/// </summary>
+		[Category("Behavior")]
+		[DefaultValue("")]
+		[Description("The jQuery selector or Control ID for the element to be used as a trigger to open the dialog.")]
+		public string Trigger { get; set; }
+
+		protected override void OnPreRender(EventArgs e) {
+
+			if (this.Trigger != null) {
+				var control = FindControl(this.Trigger);
+				if (control != null) {
+					this.Trigger = "#" + control.ClientID;
+				}
+			}			
+			
+			base.OnPreRender(e);
+		}
 
 		#region .    Options    .
 
@@ -81,15 +142,8 @@ namespace Brew.Webforms.Widgets {
 		[Description("When autoOpen is true the dialog will open automatically when dialog is called. If false it will stay hidden until .dialog(\"open\") is called on it.")]
 		public bool AutoOpen { get; set; }
 
-		/// <summary>
-		/// Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked.  The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object.
-		/// Reference: http://jqueryui.com/demos/dialog/#buttons
-		/// </summary>
 		[TypeConverter(typeof(Brew.TypeConverters.JsonObjectConverter))]
-		[Category("Appearance")]
-		[DefaultValue("{}")]
-		[Description("Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked.  The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object.")]
-		public string Buttons { get; set; }
+		public string _Buttons { get; set; }
 
 		/// <summary>
 		/// Specifies whether the dialog should close when it has focus and the user presses the esacpe (ESC) key.

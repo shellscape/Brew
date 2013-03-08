@@ -73,7 +73,7 @@ namespace Brew.Webforms.Widgets {
 				new WidgetOption { Name = "stepMonths", DefaultValue = 1 },
 				new WidgetOption { Name = "weekHeader", DefaultValue = "Wk" },
 				new WidgetOption { Name = "yearRange", DefaultValue = "c-10:c+10" },
-				new WidgetOption { Name = "yearSuffix", DefaultValue = "" },
+				new WidgetOption { Name = "yearSuffix", DefaultValue = "" }
 			};
 		}
 
