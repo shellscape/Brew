@@ -13,7 +13,7 @@ using System.Web.UI.WebControls;
 
 namespace Brew.Webforms {
 
-	public abstract class Widget : Control, IWidget2, IPostBackDataHandler, IPostBackEventHandler, IScriptControl {
+	public abstract class Widget : Control, IWidget, IPostBackDataHandler, IPostBackEventHandler, IScriptControl {
 
 		private Control _target = null;
 		private ScriptManager _scriptManager = null;
@@ -382,18 +382,6 @@ namespace Brew.Webforms {
 		[Browsable(false)]
 		public string Name { get; private set; }
 
-		[Browsable(false)]
-		public IDictionary<string, object> Options { get; set; }
-
-		//[Browsable(false)]
-		//public Page Page { get { return base.Page; } }
-
-		//[Browsable(false)]
-		//public String ClientID { get { return this.ClientID; } }
-
-		//[Browsable(false)]
-		//public String UniqueID { get { return this.UniqueID; } }
-
 		public String @For { get; set; }
 
 		[Browsable(false)]
@@ -405,13 +393,6 @@ namespace Brew.Webforms {
 
 				return this._target;
 			}
-		}
-
-		// redundant, but we may want to do magic here.
-		//public bool Visible { get { return base.Visible; } }
-
-		public void SaveOptions() {
-			//((IWidget)this).WidgetOptions = SaveOptionsAsDictionary();
 		}
 
 		#endregion

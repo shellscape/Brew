@@ -74,10 +74,8 @@
     <Compile Include="Widgets\Dialog.cs" />
     <Compile Include="Widgets\Draggable.cs" />
     <Compile Include="Widgets\Droppable.cs" />
-    <Compile Include="Extender.cs" />
-    <Compile Include="IAutoPostBackWidget.cs" />
+    <Compile Include="IAutoPostBack.cs" />
     <Compile Include="JavaScriptConverters\PostBackHashConverter.cs" />
-    <Compile Include="BrewScriptControl.cs" />
     <Compile Include="Widgets\Menu.cs" />
     <Compile Include="Widgets\MenuItem.cs" />
     <Compile Include="Widgets\Position.cs" />
@@ -93,11 +91,7 @@
     <Compile Include="Widgets\Tabs.cs" />
     <Compile Include="Widgets\Tooltip.cs" />
     <Compile Include="WidgetEvent.cs" />
-    <Compile Include="WidgetEventAttribute.cs" />
-    <Compile Include="WidgetHash.cs" />
     <Compile Include="WidgetOption.cs" />
-    <Compile Include="WidgetOptionAttribute.cs" />
-    <Compile Include="WidgetState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Brew\Brew.csproj">

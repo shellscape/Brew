@@ -58,6 +58,7 @@ namespace Brew.Webforms.Widgets {
 				new WidgetOption { Name = "monthNamesShort", DefaultValue = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" } },
 				new WidgetOption { Name = "navigationAsDateFormat", DefaultValue = false },
 				new WidgetOption { Name = "nextText", DefaultValue = "Next" },
+				new WidgetOption { Name = "numberOfMonths", DefaultValue = 1 },
 				new WidgetOption { Name = "prevText", DefaultValue = "Prev" },
 				new WidgetOption { Name = "selectOtherMonths", DefaultValue = false },
 				new WidgetOption { Name = "shortYearCutoff", DefaultValue = "+10" },
@@ -357,7 +358,6 @@ namespace Brew.Webforms.Widgets {
 		/// Set how many months to show at once. The value can be a straight integer, or can be a two-element array to define the number of rows and columns to display.
 		/// Reference: http://api.jqueryui.com/datepicker/#option-numberOfMonths
 		/// </summary>
-		[WidgetOption("numberOfMonths", 1)]
 		[Category("Data")]
 		[DefaultValue(1)]
 		[Description("Set how many months to show at once. The value can be a straight integer, or can be a two-element array to define the number of rows and columns to display.")]
