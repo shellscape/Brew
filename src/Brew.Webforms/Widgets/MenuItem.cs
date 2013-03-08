@@ -10,7 +10,7 @@ using Brew;
 
 namespace Brew.Webforms.Widgets {
 
-	[ParseChildren(typeof(MenuItem), DefaultProperty = "Items", ChildrenAsProperties = true)]
+	[ParseChildren(typeof(MenuItem), DefaultProperty = "Items")]
 	public class MenuItem : WebControl {
 
 		private TemplateContainer _container = null;
@@ -37,26 +37,6 @@ namespace Brew.Webforms.Widgets {
 				Content.InstantiateIn(_container);
 				Controls.Add(_container);
 			}
-
-			if(Items.Count > 0) {
-				_subMenu = new HtmlGenericControl("ul");
-
-				foreach(var item in Items) {
-					_subMenu.Controls.Add(item);
-				}
-
-				this.Controls.Add(_subMenu);
-			}
 		}
-
-		/// <summary>
-		/// Searches the current MenuItem for a sub MenuItem with the specified id parameter.
-		/// </summary>
-		/// <param name="id">The identifier for the MenuItem to be found.</param>
-		/// <returns>The specified MenuItem, or null if the specified MenuItem does not exist.</returns>
-		public Control FindItem(string id) {
-			return this.Items.All().Where(c => c.ID == id).FirstOrDefault();
-		}
-
 	}
 }

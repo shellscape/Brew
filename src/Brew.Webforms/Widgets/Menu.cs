@@ -104,18 +104,5 @@ namespace Brew.Webforms.Widgets {
 
 			base.OnPreRender(e);
 		}
-
-		protected override void RenderContents(HtmlTextWriter writer) {
-			this.RenderChildren(writer);
-		}
-
-		/// <summary>
-		/// Searches the current menu for a MenuItem with the specified id parameter.
-		/// </summary>
-		/// <param name="id">The identifier for the MenuItem to be found.</param>
-		/// <returns>The specified MenuItem, or null if the specified MenuItem does not exist.</returns>
-		public Control FindItem(string id) {
-			return this.Items.All().Where(c => c.ID == id).FirstOrDefault();
-		}
 	}
 }
