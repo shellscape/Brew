@@ -31,7 +31,7 @@ namespace Brew.Webforms.Widgets {
 			return new List<WidgetOption>() {
 				new WidgetOption { Name = "content", DefaultValue = null },
 				new WidgetOption { Name = "hide", DefaultValue = null },
-				new WidgetOption { Name = "items", DefaultValue = "[title]" },
+				new WidgetOption { Name = "items", DefaultValue = "[title]", PropertyName = "ItemsSelector" },
 				new WidgetOption { Name = "position", DefaultValue = "{ my: \"left+15 center\", at: \"right center\", collision: \"flipfit\" }" },
 				new WidgetOption { Name = "show", DefaultValue = null },
 				new WidgetOption { Name = "tooltipClass", DefaultValue = null },
