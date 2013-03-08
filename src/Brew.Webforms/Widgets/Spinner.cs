@@ -35,7 +35,7 @@ namespace Brew.Webforms.Widgets {
 				new WidgetOption { Name = "max", DefaultValue = null },
 				new WidgetOption { Name = "min", DefaultValue = null },
 				new WidgetOption { Name = "numberFormat", DefaultValue = null },
-				new WidgetOption { Name = "page", DefaultValue = null },
+				new WidgetOption { Name = "page", DefaultValue = null, PropertyName = "PageSteps" },
 				new WidgetOption { Name = "step", DefaultValue = null }
 			};
 		}
