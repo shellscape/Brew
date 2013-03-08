@@ -33,7 +33,7 @@
 				<li><a href="menu.aspx">Menu</a></li>
 				<li><a href="progressbar.aspx">Progressbar</a></li>
 				<li><a href="slider.aspx">Slider</a></li>
-				<li>Spinner</li>
+				<li><a href="spinner.aspx">Spinner</a></li>
 				<li>Tabs</li>
 				<li>Tooltip</li>
 			</ul>

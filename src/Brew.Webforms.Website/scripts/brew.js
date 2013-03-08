@@ -34,7 +34,7 @@
 
 		$.each(options, function (label) {
 			var lower = label.toLowerCase();
-			if (typeof data[label] == 'undefined' && data.hasOwnProperty(lower)) {
+			if (!data.hasOwnProperty(label) && data.hasOwnProperty(lower)) {
 				data[label] = data[lower];
 				delete data[lower];
 			}
