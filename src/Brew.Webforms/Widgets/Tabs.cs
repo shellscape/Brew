@@ -160,7 +160,7 @@ namespace Brew.Webforms.Widgets {
 			base.OnPreRender(e);
 		}
 
-		protected override void RenderContents(HtmlTextWriter writer) {
+		protected override void RenderChildren(HtmlTextWriter writer) {
 
 			writer.WriteBeginTag("ul");
 
@@ -182,7 +182,7 @@ namespace Brew.Webforms.Widgets {
 
 			writer.WriteEndTag("ul");
 
-			this.RenderChildren(writer);
+			base.RenderChildren(writer);
 		}
 	}
 }
