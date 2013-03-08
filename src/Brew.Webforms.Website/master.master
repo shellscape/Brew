@@ -31,7 +31,7 @@
 				<li><a href="datepicker.aspx">Datepicker</a></li>
 				<li><a href="dialog.aspx">Dialog</a></li>
 				<li><a href="menu.aspx">Menu</a></li>
-				<li>Progressbar</li>
+				<li><a href="progressbar.aspx">Progressbar</a></li>
 				<li><a href="slider.aspx">Slider</a></li>
 				<li>Spinner</li>
 				<li>Tabs</li>

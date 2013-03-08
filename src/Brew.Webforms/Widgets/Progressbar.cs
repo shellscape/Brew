@@ -43,9 +43,10 @@ namespace Brew.Webforms.Widgets {
 		/// The value of the progressbar.
 		/// Reference: http://api.jqueryui.com/progressbar/#option-value
 		/// </summary>
+		[TypeConverter(typeof(Brew.TypeConverters.StringToObjectConverter))]
 		[Category("Data")]
 		[DefaultValue(0)]
 		[Description("The value of the progressbar.")]
-		public int Value { get; set; }
+		public dynamic Value { get; set; }
 	}
 }
