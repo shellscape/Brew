@@ -34,7 +34,7 @@
 				<li><a href="progressbar.aspx">Progressbar</a></li>
 				<li><a href="slider.aspx">Slider</a></li>
 				<li><a href="spinner.aspx">Spinner</a></li>
-				<li>Tabs</li>
+				<li><a href="tabs.aspx">Tabs</a></li>
 				<li><a href="tooltip.aspx">Tooltip</a></li>
 			</ul>
 
