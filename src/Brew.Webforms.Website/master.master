@@ -35,7 +35,7 @@
 				<li><a href="slider.aspx">Slider</a></li>
 				<li><a href="spinner.aspx">Spinner</a></li>
 				<li>Tabs</li>
-				<li>Tooltip</li>
+				<li><a href="tooltip.aspx">Tooltip</a></li>
 			</ul>
 
 			<h4>Utilities</h4>
