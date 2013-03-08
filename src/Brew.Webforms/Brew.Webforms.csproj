@@ -64,8 +64,8 @@
     <Compile Include="TypeConverters\AutocompleteListConverter.cs" />
     <Compile Include="TypeConverters\AutocompleteSourceConverter.cs" />
     <Compile Include="Widget.cs" />
-    <Compile Include="Widgets\old\Accordion.cs" />
-    <Compile Include="Widgets\old\AccordionPanel.cs" />
+    <Compile Include="Widgets\Accordion.cs" />
+    <Compile Include="Widgets\AccordionPanel.cs" />
     <Compile Include="Widgets\Autocomplete.cs" />
     <Compile Include="Widgets\AutocompleteItem.cs" />
     <Compile Include="Widgets\Button.cs" />
