@@ -34,7 +34,7 @@
 
 		$.each(options, function (label) {
 			var lower = label.toLowerCase();
-			if (data.hasOwnProperty(lower)) {
+			if (!data[label] && data.hasOwnProperty(lower)) {
 				data[label] = data[lower];
 				delete data[lower];
 			}
@@ -70,8 +70,6 @@
 						e.preventDefault();
 					});
 				}
-
-				widget.data('buttons'); // running into a weird bug here where options.buttons is undefined unless we access the button data directly.
 
 				if (options.buttons) {
 					$.each(options.buttons, function (label) {
