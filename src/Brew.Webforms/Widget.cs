@@ -82,6 +82,10 @@ namespace Brew.Webforms {
 				_target = this.TagKey == HtmlTextWriterTag.Unknown ? FindControl(this.For) : this;
 			}
 
+			if (this._target == null) {
+				throw new ArgumentException(String.Format("Brew Error: The control with ID \"{0}\" does not exist or does not have the runat=\"server\" attribute.", this.For));
+			}
+
 			if (!this._target.Visible) {
 				return;
 			}
@@ -159,7 +163,14 @@ namespace Brew.Webforms {
 					allow = true;
 				}
 				else if (value != null && !value.Equals(option.DefaultValue)) {
-					allow = true;
+					if (value.GetType().IsArray && option.DefaultValue != null && option.DefaultValue.GetType().IsArray) {
+						var ienum = (IEnumerable<object>)value;
+						var oenum = (IEnumerable<object>)option.DefaultValue;
+						allow = !ienum.ItemsAreEqual(oenum);
+					}
+					else {
+						allow = true;
+					}
 				}
 
 				if (!allow) {
@@ -455,7 +466,7 @@ namespace Brew.Webforms {
 			if (del != null) {
 				var list = del.GetInvocationList();
 
-				if ( list != null && list.Length > 0) {
+				if (list != null && list.Length > 0) {
 					del.DynamicInvoke(new object[] { this, EventArgs.Empty });
 				}
 			}

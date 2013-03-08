@@ -19,7 +19,29 @@
 		else {
 			return _old.apply(this, arguments);
 		}
-	}
+	};
+
+	function attrfix(data, widgetName) { // $.data() returns all attributes lowercase. doesn't jive with jquery ui.
+
+		var options;
+
+		if (widgetName == "datepicker") {
+			options = $.datepicker._defaults
+		}
+		else {
+			options = $.ui[widgetName].prototype.options;
+		}
+
+		$.each(options, function (label) {
+			var lower = label.toLowerCase();
+			if (data.hasOwnProperty(lower)) {
+				data[label] = data[lower];
+				delete data[lower];
+			}
+		});
+
+		return data;
+	};
 
 	function ready() {
 
@@ -30,6 +52,8 @@
 				options = widget.data(),
 				postbacks = widget.data('postbacks'),
 				uniqueId = widget.data('uniqueid');
+
+			options = attrfix(options, name);
 
 			$.each(postbacks, function (event) {
 				var postback = this;
@@ -79,79 +103,7 @@
 			input.val(JSON.stringify(options));
 		}
 	};
-
-	//  ready = function () {
-	//    if ( typeof ( window.JSON ) === 'undefined' ) {
-	//      throw new Error( '__brew requires JSON support. Please ensure json2.js is referenced for downlevel browsers.' );
-	//    }
-
-	//    if (!$('#' + stateId).length) {
-	//    	$('<input id="' + stateId + '" name="' + stateId + '" type="hidden" />')
-	//			  .appendTo( window.theForm ); // theForm is defined by asp.net
-	//    }
-
-	//    $.each( __brew.widgets, function ( index, widget ) {
-	//      var element = $( '#' + widget.id ),
-	//        widgetName = widget.widgetName,
-	//        events = {};
-
-	//			if( !widgetName || !$.fn[widgetName] ) {
-	//				return;
-	//			}
-
-	//			// map the event names to objects, merge with postBacks
-	//			widget.events = $.map( widget.events, function( name ){
-	//				return { name: name };
-	//			});
-
-	//			widget.postBacks = $.map( widget.postBacks, function( pb ){
-	//				pb.causesPostBack = true;
-	//				return pb;
-	//			});
-
-	//			widget.events = widget.events.concat( widget.postBacks );
-
-	//      $.each( widget.events, function () {
-	//        var event = this;
-	//        events[event.name] = function ( jqEvent, ui ) {
-
-	//        	// Submit a postback if handler emitted - wee server side events!
-	//        	if ( event.causesPostBack ) {
-	//        		window.__doPostBack(widget.uniqueId, event.dataChangedEvent ? '' : event.name);
-	//        	}
-	//        };
-	//      });
-
-	//			$.each( widget.options, function( prop ) {
-	//				if( this.eval ){
-	//					var on = this.on;
-
-	//					try {
-	//						widget.options[ prop ] = eval( '(' + this.on + ')' );
-	//					}
-	//					catch ( e ) { // if bad data/string is entered for the Eval property, an exception is thrown. Remove the bad data and prop.
-	//						delete widget.options[ prop ];
-
-	//						window.console && console.log && console.log( 'Brew Error > elementId: ' + widget.id + '. widget: "' + widgetName + '". Bad data in "' + prop + '" option.' );
-	//					}
-	//				}
-	//			});
-
-	//      // merge events with options
-	//      $.extend( widget.options, events );
-
-	//      // Invoke the jQuery UI extension method on the element with the options only if it hasn't already been called
-	//      if ( !element.data( widgetName ) ) {
-	//        element[widgetName]( widget.options );
-	//      }
-
-	//      // Wire up dispose method which update panels will call when element is destroyed
-	//      element[0].dispose = function () {
-	//        delete __brew.widgets[widget.id];
-	//      };
-	//    });
-	//  },
-
+	
 	var htmlEncode = function (value) {
 		return $('<div/>').text(value).html();
 	};

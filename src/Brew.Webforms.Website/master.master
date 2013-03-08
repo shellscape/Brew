@@ -28,7 +28,7 @@
 				<li><a href="accordion.aspx">Accordion</a></li>
 				<li><a href="autocomplete.aspx">Autocomplete</a></li>
 				<li><a href="button.aspx">Button</a></li>
-				<li>Datepicker</li>
+				<li><a href="datepicker.aspx">Datepicker</a></li>
 				<li>Dialog</li>
 				<li>Menu</li>
 				<li>Progressbar</li>

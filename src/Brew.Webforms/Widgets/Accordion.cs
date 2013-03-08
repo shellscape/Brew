@@ -10,7 +10,7 @@ namespace Brew.Webforms.Widgets {
 
 	[PersistChildren(true)]
 	[ParseChildren(typeof(AccordionPanel), DefaultProperty = "AccordionPanels", ChildrenAsProperties = true)]
-	public class Accordion : BrewScriptControl, IAutoPostBackWidget {
+	public class Accordion : Widget, IAutoPostBack {
 
 		private List<AccordionPanel> _panels;
 
