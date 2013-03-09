@@ -3,7 +3,7 @@
   <system.web>
     <pages>
       <controls>
-        <add assembly="Brew.Winforms" namespace="Brew.Webforms.Widgets" tagPrefix="brew" />
+        <add assembly="Brew.Webforms" namespace="Brew.Webforms.Widgets" tagPrefix="brew" />
       </controls>
     </pages>
   </system.web>
