@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Brew.Winforms")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Brew.Webforms")]
+[assembly: AssemblyDescription("Bew Webforms Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Brew.Winforms")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("Shellscape Software")]
+[assembly: AssemblyProduct("Brew.Webforms")]
+[assembly: AssemblyCopyright("Copyright © 2013 Andrew Powell, Shellscape Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

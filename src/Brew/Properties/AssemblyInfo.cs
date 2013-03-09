@@ -12,7 +12,7 @@ using System.Web.UI;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Shellscape Software")]
 [assembly: AssemblyProduct("Brew")]
-[assembly: AssemblyCopyright("Copyright © Andrew Powell, Shellscape Software 2013")]
+[assembly: AssemblyCopyright("Copyright © 2013 Andrew Powell, Shellscape Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
