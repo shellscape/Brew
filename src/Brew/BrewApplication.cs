@@ -37,7 +37,7 @@ namespace Brew {
 
 			ScriptManager.ScriptResourceMapping.AddDefinition("brew",
 					new ScriptResourceDefinition {
-						Path = "~/Scripts/brew.js",
+						Path = "~/Scripts/brew.min.js",
 						DebugPath = "~/Scripts/brew.js"
 					}
 			);
