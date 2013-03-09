@@ -11,7 +11,12 @@ public partial class Master : System.Web.UI.MasterPage {
 
 	protected override void OnLoad(EventArgs e) {
 		base.OnLoad(e);
-	
+
+		if (this.Page.Request.FilePath.ToLower().Contains("index.aspx")) {
+			_source.Visible = false;
+			return;
+		}
+
 		var content = String.Empty;
 
 		using(var fs = new FileStream(Server.MapPath(this.Page.Request.FilePath), FileMode.Open))

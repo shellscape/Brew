@@ -20,12 +20,6 @@
 <body>
 	<div role="main">
 		<aside id="nav">
-			<h3>Interactions</h3>
-			<a href="draggable.aspx">Draggable</a>
-			<a href="droppable.aspx">Droppable</a>
-			<a href="resizable.aspx">Resizable</a>
-			<a href="selectable.aspx">Selectable</a>
-			<a href="sortable.aspx">Sortable</a>
 			
 			<h3>Widgets</h3>
 			<a href="accordion.aspx">Accordion</a>
@@ -40,10 +34,18 @@
 			<a href="tabs.aspx">Tabs</a>
 			<a href="tooltip.aspx">Tooltip</a>
 
+			<h3>Interactions</h3>
+			<a href="draggable.aspx">Draggable</a>
+			<a href="droppable.aspx">Droppable</a>
+			<a href="resizable.aspx">Resizable</a>
+			<a href="selectable.aspx">Selectable</a>
+			<a href="sortable.aspx">Sortable</a>
+
 			<h3>Utilities</h3>
 			<a href="position.aspx">Position</a>
 		</aside>
 		<aside id="info">
+			<a href="." class="home"></a>
 			<a href="http://nuget.org/package/brew" class="nuget">nuget</a>
 			<a href="https://github.com/shellscape/Brew/wiki" class="wiki">wiki</a>
 			<a href="https://github.com/shellscape" class="source">source</a>
@@ -62,10 +64,12 @@
 				<div class="output">
 					<asp:contentplaceholder id="content" runat="server" />
 				</div>
+				<asp:placeholder id="_source" runat="server">
 				<div class="source">
 					<h3>source</h3>
 					<pre><code class="language-markup" data-linenumber><asp:literal id="source" runat="server" /></code></pre>
 				</div>
+				</asp:placeholder>
 			</section>
 		</form>
 	</div>
@@ -81,7 +85,7 @@
 
 	<script src="scripts/jquery-1.9.1.min.js"></script>
 	<script src="js/prism.js"></script>
-	<script src="js/prism.linenumber.js"></script>
+	<%--<script src="js/prism.linenumber.js"></script>--%>
 	<script src="js/script.js"></script>
 
   <script>
