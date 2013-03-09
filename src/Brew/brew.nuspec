@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package>
 	<metadata>
-		<id>$id$</id>
+		<id>Brew</id>
 		<title>Brew</title>
 		<version>$version$</version>
-		<authors>$author$</authors>
+		<authors>Shellscape Software, Andrew Powell</authors>
 		<projectUrl>http://shellscape.org/#brew</projectUrl>
 		<iconUrl>http://shellscape.org/brew/nuget.png</iconUrl>
-		<licenseUrl></licenseUrl>
+		<licenseUrl>https://raw.github.com/shellscape/Brew/master/LICENSE</licenseUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>Brew is an open source library of interface components for ASP.NET which utilitizes jQuery and jQuery UI.</summary>
 		<description>
@@ -27,6 +27,15 @@
 			<dependency id="jQuery.UI.Combined" version="1.10.1" />
 			<dependency id="json2" />
 		</dependencies>
+		<references>
+			<reference file="Brew.dll" />
+			<reference file="Brew.Webforms.dll" />
+		</references>
 		<tags>ASP.NET jQueryUI WebForms jQuery Plugins Controls Ajax Brew</tags>
 	</metadata>
+	<files>
+		<file src="..\Brew.Webforms\web.config.transform" target="content"/>
+		<file src="bin\Brew.Webforms.dll" target="lib\net45"/>
+		<file src="bin\Brew.Webforms.xml" target="lib\net45"/>
+	</files>
 </package>

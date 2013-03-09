@@ -9,7 +9,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Brew.Webforms.Website", "ht
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
-		ProjectReferences = "{03c37589-6bf0-4e3b-91d7-9140d0368db6}|Brew.dll;{63b71756-8b0d-4098-80fe-4ffc145ee065}|Brew.Winforms.dll;"
+		ProjectReferences = "{03c37589-6bf0-4e3b-91d7-9140d0368db6}|Brew.dll;{63b71756-8b0d-4098-80fe-4ffc145ee065}|Brew.Webforms.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_18275"
 		Debug.AspNetCompiler.PhysicalPath = "src\Brew.Webforms.Website\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_18275\"
@@ -26,6 +26,23 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Brew.Webforms.Website", "ht
 		Release.AspNetCompiler.Debug = "False"
 		SlnRelativePath = "src\Brew.Webforms.Website\"
 		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{111F9B96-5F86-4BE3-9261-76815C673198}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\nuget.cmd = .nuget\nuget.cmd
+		.nuget\nuget.proj = .nuget\nuget.proj
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5391D98A-8663-483D-B828-9AE4ADA8421B}"
+	ProjectSection(SolutionItems) = preProject
+		build\build.cmd = build\build.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grunt", "grunt", "{2F3576F6-9BBF-4E6C-AF8D-05AC4F80E568}"
+	ProjectSection(SolutionItems) = preProject
+		grunt\Gruntfile.js = grunt\Gruntfile.js
+		grunt\package.json = grunt\package.json
 	EndProjectSection
 EndProject
 Global

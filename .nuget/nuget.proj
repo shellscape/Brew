@@ -1,29 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Go" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
-        <ProjectRoot>$(MSBuildProjectDirectory)\..</ProjectRoot>
-        <ArtifactsDir>$(ProjectRoot)\.nuget\output\$(Configuration)</ArtifactsDir>
-        <NuGetToolsPath>$(ProjectRoot)\.nuget</NuGetToolsPath>
-        <NuGetExePath>$(NuGetToolsPath)\nuget.exe</NuGetExePath>
-    </PropertyGroup>
-    
-    <PropertyGroup>
-        <MajorVersion>0</MajorVersion>
-        <MinorVersion>9</MinorVersion>
-        <Version>$(MajorVersion).$(MinorVersion)</Version>
-    </PropertyGroup>
-    
+	<PropertyGroup>
+		<Configuration Condition="$(Configuration) == ''">Debug</Configuration>
+		<ProjectRoot>$(MSBuildProjectDirectory)\..</ProjectRoot>
+		<ProjectPath>$(ProjectRoot)\src\Brew\Brew.csproj</ProjectPath>
+		<ArtifactsDir>$(ProjectRoot)\.nuget\output\$(Configuration)</ArtifactsDir>
+		<NuGetToolsPath>$(ProjectRoot)\.nuget</NuGetToolsPath>
+		<NuGetExePath>$(NuGetToolsPath)\nuget.exe</NuGetExePath>
+		<NuSpecPath>$(ProjectRoot)\src\Brew\brew.nuspec</NuSpecPath>
+		<PackageOutputDir>$(ArtifactsDir)</PackageOutputDir>
+	</PropertyGroup>
 
-    <Target Name="Go" DependsOnTargets="Build">
-    </Target>
-    
-    <Target Name="CreateOutputDir">
-        <MakeDir Directories="$(ArtifactsDir)" Condition="!Exists('$(ArtifactsDir)')" />
-    </Target>
-    
-    <Target Name="Build" DependsOnTargets="CreateOutputDir">
-        <MSBuild Projects="$(ProjectRoot)\Brew.sln" Targets="Build" Properties="Version=$(Version);PackageOutputDir=$(ArtifactsDir);Configuration=$(Configuration)" />
-    </Target>
-    
+	<PropertyGroup>
+		<MajorVersion>1</MajorVersion>
+		<MinorVersion>0</MinorVersion>
+		<Version>$(MajorVersion).$(MinorVersion)</Version>
+		<BuildPackage>true</BuildPackage>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Property that enables building a package from a project -->
+		<BuildPackage Condition="$(BuildPackage) == ''">false</BuildPackage>
+
+		<!-- Commands -->
+		<BuildCommand>"$(NuGetExePath)" pack "$(ProjectPath)" -p Configuration=$(Configuration) -o "$(PackageOutputDir)" -verbose -version $(Version)</BuildCommand>
+
+		<!-- Make the build depend on restore packages -->
+		<BuildDependsOn Condition="$(BuildPackage) == 'true'">
+			$(BuildDependsOn);
+			BuildPackage;
+		</BuildDependsOn>
+	</PropertyGroup>
+
+	<Target Name="CheckPrerequisites">
+		<!-- Raise an error if we're unable to locate nuget.exe  -->
+		<Error Condition="!Exists('$(NuGetExePath)')" Text="Unable to locate '$(NuGetExePath)'" />
+	</Target>
+
+	<Target Name="BuildPackage" DependsOnTargets="CheckPrerequisites">
+		<Exec Command="$(BuildCommand)"
+					LogStandardErrorAsError="true" />
+	</Target>
+
+	<Target Name="Go" DependsOnTargets="Build">
+	</Target>
+
+	<Target Name="CreateOutputDir" DependsOnTargets="CheckPrerequisites">
+		<MakeDir Directories="$(ArtifactsDir)" Condition="!Exists('$(ArtifactsDir)')" />
+	</Target>
+
+	<ItemGroup>
+		<ProjectToBuild Include="$(ProjectPath)"/>
+		<ProjectToBuild Include="$(ProjectRoot)\src\Brew.Webforms\Brew.Webforms.csproj"/>
+	</ItemGroup>
+
+	<Target Name="Build" DependsOnTargets="CreateOutputDir">
+		<MSBuild Projects="@(ProjectToBuild)" Targets="Build" Properties="Configuration=$(Configuration)" />
+		<Copy SourceFiles="$(ProjectRoot)\src\Brew.Webforms\bin\$(Configuration)\Brew.Webforms.dll" DestinationFolder="$(ProjectRoot)\src\Brew\bin\" ContinueOnError="true" />
+		<Copy SourceFiles="$(ProjectRoot)\src\Brew.Webforms\bin\$(Configuration)\Brew.Webforms.xml" DestinationFolder="$(ProjectRoot)\src\Brew\bin\" ContinueOnError="true" />
+		<Exec Command="$(BuildCommand)" LogStandardErrorAsError="true" />
+	</Target>
 </Project>
