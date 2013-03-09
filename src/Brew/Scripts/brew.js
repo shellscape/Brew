@@ -1,126 +1,131 @@
-﻿(function ( $ ) {
+﻿(function ($) {
 	'use strict';
-	var stateId = '__brew',
 
-  __brew = {
-		widgets: {},
-    //subscribe: window.amplify.subscribe,
-    //publish: window.amplify.publish,
-    onSubmit: function () {
-    	var optionsInput = $('#' + stateId),
+	var _old = $.fn.attr,
+		stateId = '__brewstate';
+
+	$.fn.attr = function () {
+
+		if (this[0] && arguments.length === 0) {
+			var map = {}, i,
+				attributes = this[0].attributes,
+				length = attributes.length;
+
+			for (i = 0; i < length; i++) {
+				map[attributes[i].name.toLowerCase()] = attributes[i].value;
+			}
+			return map;
+		}
+		else {
+			return _old.apply(this, arguments);
+		}
+	};
+
+	function attrfix(data, widgetName) { // $.data() returns all attributes lowercase. doesn't jive with jquery ui.
+
+		var options;
+
+		if (widgetName == "datepicker") {
+			options = $.datepicker._defaults
+		}
+		else {
+			options = $.ui[widgetName].prototype.options;
+		}
+
+		$.each(options, function (label) {
+			var lower = label.toLowerCase();
+			if (!data.hasOwnProperty(label) && data.hasOwnProperty(lower)) {
+				data[label] = data[lower];
+				delete data[lower];
+			}
+		});
+
+		return data;
+	};
+
+	function ready() {
+
+		$('brew widget').each(function () {
+			var widget = $(this),
+				_for = widget.attr('for'),
+				name = widget.attr('name'),
+				options = widget.data(),
+				postbacks = widget.data('postbacks'),
+				uniqueId = widget.data('uniqueid');
+
+			options = attrfix(options, name);
+
+			$.each(postbacks, function (event) {
+				var postback = this;
+
+				options[event] = function (event, ui) {
+					window.__doPostBack(uniqueId, postback);
+				};
+			});
+
+			if (name == 'dialog') {
+				if (options.trigger) {
+					$(options.trigger).click(function (e) {
+						$('#' + _for).dialog('open');
+						e.preventDefault();
+					});
+				}
+
+				if (options.buttons) {
+					$.each(options.buttons, function (label) {
+						options.buttons[label] = eval(this);
+					});
+				}
+			}
+
+			$('#' + _for)[name](options);
+		});
+
+		if (!$('#' + stateId).length) {
+			$('<input />', { type: 'hidden', id: stateId, name: stateId }).appendTo(window.theForm); // theForm is defined by asp.net
+		}
+	};
+
+	$(ready);
+	Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () { ready(); }); // handles adding the jquery ui css on partial postback, if it hasn't been already.
+
+	window.__brew = {
+
+		onsubmit: function () {
+			var input = $('#' + stateId),
 				options = [];
 
-      $.each( __brew.widgets, function ( index, widget ) {
-        var element = $( '#' + widget.id ),
-          widgetName = widget.widgetName, //element.data( 'ui-widget' ),
-          uiWidget = element.data( widgetName );
-				
-				if( !uiWidget ){
+			$('brew widget').each(function () {
+				var widget = $(this);
+				var _for = widget.attr('for');
+				var name = widget.attr('name');
+				var element = $('#' + _for);
+				var ui = element.data("ui-" + name);
+				var data = $.extend({}, ui.options);
+
+				if (!ui) {
 					return;
 				}
 
-				var opts = $.extend( {}, uiWidget.options );
-
-				$.each( opts, function( label ){
-					if( $.inArray( label, widget.encodedOptions ) >= 0 ){
-						opts[ label ] = htmlEncode( this );
+				$.each(data, function (label) {
+					if (typeof (this) == "string") {
+						data[label] = htmlEncode(this);
 					}
 				});
 
-        options.push({ id: widget.id, widgetName: widgetName, options: opts });
-      });
-
-      optionsInput.val( JSON.stringify( options ) );
-    }
-  },
-
-  ready = function () {
-    if ( typeof ( window.JSON ) === 'undefined' ) {
-      throw new Error( '__brew requires JSON support. Please ensure json2.js is referenced for downlevel browsers.' );
-    }
-
-    if (!$('#' + stateId).length) {
-    	$('<input id="' + stateId + '" name="' + stateId + '" type="hidden" />')
-			  .appendTo( window.theForm ); // theForm is defined by asp.net
-    }
-
-    $.each( __brew.widgets, function ( index, widget ) {
-      var element = $( '#' + widget.id ),
-        widgetName = widget.widgetName,
-        events = {};
-
-			if( !widgetName || !$.fn[widgetName] ) {
-				return;
-			}
-
-			// map the event names to objects, merge with postBacks
-			widget.events = $.map( widget.events, function( name ){
-				return { name: name };
+				options.push({ id: _for, widgetName: name, options: data });
 			});
 
-			widget.postBacks = $.map( widget.postBacks, function( pb ){
-				pb.causesPostBack = true;
-				return pb;
-			});
+			input.val(JSON.stringify(options));
+		},
 
-			widget.events = widget.events.concat( widget.postBacks );
+		closedialog: function () {
+			$(this).dialog("close");
+		}
+	};
 
-      $.each( widget.events, function () {
-        var event = this;
-        events[event.name] = function ( jqEvent, ui ) {
-        	//var args = [].slice.call( arguments, 0 ),
-          //  topic = widget.id + '.' + widgetName + '.' + event.name,
-          //  uiWidget = element.data( widgetName );
-
-        	//args.splice( 0, 0, topic );
-        	//args.push( uiWidget );
-
-        	// this publishes an amplify event with the arguments that correspond to the jquery ui event handler function parameters.
-					//__brew.publish.apply( this, args );
-
-        	// Submit a postback if handler emitted - wee server side events!
-        	if ( event.causesPostBack ) {
-        		window.__doPostBack(widget.uniqueId, event.dataChangedEvent ? '' : event.name);
-        	}
-        };
-      });
-
-			$.each( widget.options, function( prop ) {
-				if( this.eval ){
-					var on = this.on;
-
-					try {
-						widget.options[ prop ] = eval( '(' + this.on + ')' );
-					}
-					catch ( e ) { // if bad data/string is entered for the Eval property, an exception is thrown. Remove the bad data and prop.
-						delete widget.options[ prop ];
-						
-						window.console && console.log && console.log( 'Brew Error > elementId: ' + widget.id + '. widget: "' + widgetName + '". Bad data in "' + prop + '" option.' );
-					}
-				}
-			});
-
-      // merge events with options
-      $.extend( widget.options, events );
-
-      // Invoke the jQuery UI extension method on the element with the options only if it hasn't already been called
-      if ( !element.data( widgetName ) ) {
-        element[widgetName]( widget.options );
-      }
-
-      // Wire up dispose method which update panels will call when element is destroyed
-      element[0].dispose = function () {
-        delete __brew.widgets[widget.id];
-      };
-    });
-  },
-
-  endRequest = function ( sender, args ) {
-    ready();
-  },
-
-	htmlEncode = function( value ){
-		return $( '<div/>' ).text( value ).html();
+	var htmlEncode = function (value) {
+		return $('<div/>').text(value).html();
 	};
 
 	// The datepicker widget is "unique" in jQuery UI. It's internals aren't standardized like the other widgets.
@@ -129,24 +134,24 @@
 	var _attachDatepicker = $.datepicker._attachDatepicker,
 		_optionDatepicker = $.datepicker._optionDatepicker;
 
-	$.datepicker._attachDatepicker = function( target ) {
+	$.datepicker._attachDatepicker = function (target) {
 		var inst;
-		_attachDatepicker.apply( this, arguments );
-		inst = this._getInst( target );
+		_attachDatepicker.apply(this, arguments);
+		inst = this._getInst(target);
 		inst.options = {};
-		this._refreshOptions( target );
+		this._refreshOptions(target);
 	};
-	
-	$.datepicker._refreshOptions = function( target ) {
-		var inst = this._getInst( target );
-		$.each(this._defaults, function( prop ) {
-			inst.options[ prop ] = $.datepicker._get( inst, prop );
+
+	$.datepicker._refreshOptions = function (target) {
+		var inst = this._getInst(target);
+		$.each(this._defaults, function (prop) {
+			inst.options[prop] = $.datepicker._get(inst, prop);
 		});
 	};
-	
-	$.datepicker._optionDatepicker = function( target ) {
-		_optionDatepicker.apply( this, arguments );
-		this._refreshOptions( target );
+
+	$.datepicker._optionDatepicker = function (target) {
+		_optionDatepicker.apply(this, arguments);
+		this._refreshOptions(target);
 	};
 
 	// The tabs widget triggers 'show' on create. Scott has stated that this behavior is unusual and won't be a part of 1.9.
@@ -156,16 +161,16 @@
 	var _tabify = $.ui.tabs.prototype._tabify,
 		_trigger = $.ui.tabs.prototype._trigger;
 
-	$.ui.tabs.prototype._tabify = function(){
-		_tabify.apply( this, arguments );
+	$.ui.tabs.prototype._tabify = function () {
+		_tabify.apply(this, arguments);
 		this._created = true;
 	};
 
-	$.ui.tabs.prototype._trigger = function( type ){
-		if( type === "show" && !this._created ){
+	$.ui.tabs.prototype._trigger = function (type) {
+		if (type === "show" && !this._created) {
 			return false;
 		}
-		return _trigger.apply( this, arguments );
+		return _trigger.apply(this, arguments);
 	};
 
 	// We need to proxy the ui.dialog._create method to assert that dialogs are appended to the end of the server form. 
@@ -173,19 +178,16 @@
 
 	var _create = $.ui.dialog.prototype._create;
 
-	$.ui.dialog.prototype._create = function(){
-		var result = _create.apply( this, arguments );
+	$.ui.dialog.prototype._create = function () {
+		var result = _create.apply(this, arguments);
 		var form = window.theForm || $('form:first');
 
 		this.uiDialog.appendTo(form);
 
 		return result;
 	};
-	
+
 	// The autocomplete widget accepts a string and string array. This is problematic as we can't represent both 
 
-	$( ready );
-	Sys.WebForms.PageRequestManager.getInstance().add_endRequest( endRequest ); // handles adding the jquery ui css on partial postback, if it hasn't been already.
-	window.__brew = __brew;
 
-} )( jQuery );
+})(jQuery);
