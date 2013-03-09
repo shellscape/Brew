@@ -12,6 +12,10 @@ public partial class Master : System.Web.UI.MasterPage {
 	protected override void OnLoad(EventArgs e) {
 		base.OnLoad(e);
 
+		//var sm = ScriptManager.GetCurrent(this.Page);
+
+		//sm.ScriptMode = ScriptMode.Release;		
+
 		if (this.Page.Request.FilePath.ToLower().Contains("index.aspx")) {
 			_source.Visible = false;
 			return;

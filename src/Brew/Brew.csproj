@@ -127,12 +127,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   -->
-  <Target Name="AfterBuild">
-    <Exec Command="&quot;$(SolutionDir)Utilities\AjaxMin.exe&quot; &quot;$(ProjectDir)Scripts\brew.js&quot; -out &quot;$(ProjectDir)Scripts\brew.min.js&quot; -clobber" LogStandardErrorAsError="true" />
-  </Target>
 </Project>
