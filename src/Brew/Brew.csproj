@@ -124,12 +124,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\brew.js" />
+    <Content Include="Scripts\brew.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="brew.nuspec">
       <SubType>Designer</SubType>
     </None>
     <None Include="brew.snk" />
+    <Content Include="Web.config.transform" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

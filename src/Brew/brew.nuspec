@@ -4,7 +4,7 @@
 		<id>Brew</id>
 		<title>Brew</title>
 		<version>$version$</version>
-		<authors>Shellscape Software, Andrew Powell</authors>
+		<authors>Andrew Powell, Shellscape Software</authors>
 		<projectUrl>http://shellscape.org/#brew</projectUrl>
 		<iconUrl>http://shellscape.org/brew/nuget.png</iconUrl>
 		<licenseUrl>https://raw.github.com/shellscape/Brew/master/LICENSE</licenseUrl>
@@ -34,7 +34,7 @@
 		<tags>ASP.NET jQueryUI WebForms jQuery Plugins Controls Ajax Brew</tags>
 	</metadata>
 	<files>
-		<file src="..\Brew.Webforms\web.config.transform" target="content"/>
+		<!--<file src="..\Brew.Webforms\web.config.transform" target="content"/>-->
 		<file src="bin\Brew.Webforms.dll" target="lib\net45"/>
 		<file src="bin\Brew.Webforms.xml" target="lib\net45"/>
 	</files>
