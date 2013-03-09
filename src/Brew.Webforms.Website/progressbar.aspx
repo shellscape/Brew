@@ -2,10 +2,12 @@
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
 
-<div id="progress" runat="server"></div>
-<div id="indeterminate" runat="server"></div>
+	<h2 class="control">progressbar</h2>
 
-<brew:progressbar runat="server" for="progress" value="37" />
-<brew:progressbar runat="server" for="indeterminate" value="false" />
+	<div id="progress" runat="server"></div>
+	<div id="indeterminate" runat="server"></div>
+
+	<brew:progressbar runat="server" for="progress" value="37" />
+	<brew:progressbar runat="server" for="indeterminate" value="false" />
 
 </asp:content>

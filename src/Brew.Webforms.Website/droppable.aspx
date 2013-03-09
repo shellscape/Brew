@@ -1,7 +1,7 @@
 ﻿<%@ page title="" language="C#" masterpagefile="~/master.master" autoeventwireup="true" codefile="droppable.aspx.cs" inherits="droppable" %>
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
-
+	<h2 class="interaction">droppable</h2>
 	<style>
 		#content_drag { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
 		#content_drop { width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px; }

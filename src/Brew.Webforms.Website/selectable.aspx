@@ -1,7 +1,7 @@
 ﻿<%@ page title="" language="C#" masterpagefile="~/master.master" autoeventwireup="true" codefile="selectable.aspx.cs" inherits="selectable" %>
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
-
+	<h2 class="interaction">selectable</h2>
 	<style>
 		#feedback { font-size: 1.4em; }
 		#content_select .ui-selecting { background: #FECA40; }

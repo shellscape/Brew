@@ -1,7 +1,7 @@
 ﻿<%@ page title="" language="C#" masterpagefile="~/master.master" autoeventwireup="true" codefile="draggable.aspx.cs" inherits="draggable" %>
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
-
+	<h2 class="interaction">draggable</h2>
 	<style>
 		.ui-widget-content { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
 	</style>

@@ -2,6 +2,8 @@
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
 
+	<h2 class="control">tabs</h2>
+
 	<div style="width: 600px;">
 
 		<brew:tabs runat="server">

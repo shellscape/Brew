@@ -2,7 +2,7 @@
 
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
-	
+	<h2 class="control">dialog</h2>
 	<div id="basic" title="Basic dialog" runat="server">
 		<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
 	</div>

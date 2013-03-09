@@ -2,8 +2,10 @@
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
 
-	<script src="/scripts/globalize/globalize.js"></script>
-  <script src="/scripts/globalize/globalize.culture.en-US.js"></script>
+	<h2 class="control">spinner</h2>
+
+	<script src="scripts/globalize/globalize.js"></script>
+  <script src="scripts/globalize/globalize.culture.en-US.js"></script>
  
 	<p>
 		<label for="default">Select a value:</label>

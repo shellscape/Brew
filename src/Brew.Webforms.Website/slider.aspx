@@ -1,6 +1,7 @@
 ﻿<%@ page title="" language="C#" masterpagefile="~/master.master" autoeventwireup="true" codefile="slider.aspx.cs" inherits="slider" %>
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
+	<h2 class="control">Slider</h2>
 
 	<brew:slider id="slidr" runat="server" autopostback="true" />
 	<brew:slider id="volume" runat="server" value="60" range="min" animate="true" />

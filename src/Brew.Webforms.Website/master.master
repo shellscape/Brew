@@ -1,53 +1,84 @@
 ﻿<%@ master language="C#" autoeventwireup="true" codefile="master.master.cs" inherits="Master" %>
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head runat="server">
-	<title></title>
-	<asp:contentplaceholder id="head" runat="server" />
-	</asp:ContentPlaceHolder>
-	<link rel="stylesheet" href="Content/themes/base/jquery.ui.all.css" />
-	<style>
-		body { font-family: Segoe UI; font-size: 11px; }
-	</style>
+	<title>Shellscape Software &rarr; Brew Demos</title>
+	<meta name="description" content="i make software. it's free. it's open source. gmail notifier plus, brew for asp.net, simple power plus and rumshot screenshot preview utilities.">
+  <meta name="keywords" content="free open source software shellscape gmail notifier plus screenshot preview rumshot brew juiceui juice asp.net ajax webforms">
+
+  <meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="css/start/jquery-ui-1.10.1.custom.css" />
+	<link rel="stylesheet" href="css/style.css" />
+
+	<script src="js/modernizr-2.5.3.min.js"></script>
 </head>
 <body>
-	<form id="form" runat="server">
-		<div style="display: inline-block; width: 200px; border-right: 2px solid #ccc;">
-			<h4>Interactions</h4>
-			<ul>
-				<li><a href="draggable.aspx">Draggable</a></li>
-				<li><a href="droppable.aspx">Droppable</a></li>
-				<li><a href="resizable.aspx">Resizable</a></li>
-				<li><a href="selectable.aspx">Selectable</a></li>
-				<li><a href="sortable.aspx">Sortable</a></li>
-			</ul>
+	<div role="main">
+		<aside id="nav">
+			<h3>Interactions</h3>
+			<a href="draggable.aspx">Draggable</a>
+			<a href="droppable.aspx">Droppable</a>
+			<a href="resizable.aspx">Resizable</a>
+			<a href="selectable.aspx">Selectable</a>
+			<a href="sortable.aspx">Sortable</a>
+			
+			<h3>Widgets</h3>
+			<a href="accordion.aspx">Accordion</a>
+			<a href="autocomplete.aspx">Autocomplete</a>
+			<a href="button.aspx">Button</a>
+			<a href="datepicker.aspx">Datepicker</a>
+			<a href="dialog.aspx">Dialog</a>
+			<a href="menu.aspx">Menu</a>
+			<a href="progressbar.aspx">Progressbar</a>
+			<a href="slider.aspx">Slider</a>
+			<a href="spinner.aspx">Spinner</a>
+			<a href="tabs.aspx">Tabs</a>
+			<a href="tooltip.aspx">Tooltip</a>
 
-			<h4>Widgets</h4>
-			<ul>
-				<li><a href="accordion.aspx">Accordion</a></li>
-				<li><a href="autocomplete.aspx">Autocomplete</a></li>
-				<li><a href="button.aspx">Button</a></li>
-				<li><a href="datepicker.aspx">Datepicker</a></li>
-				<li><a href="dialog.aspx">Dialog</a></li>
-				<li><a href="menu.aspx">Menu</a></li>
-				<li><a href="progressbar.aspx">Progressbar</a></li>
-				<li><a href="slider.aspx">Slider</a></li>
-				<li><a href="spinner.aspx">Spinner</a></li>
-				<li><a href="tabs.aspx">Tabs</a></li>
-				<li><a href="tooltip.aspx">Tooltip</a></li>
-			</ul>
-
-			<h4>Utilities</h4>
-			<ul>
-				<li><a href="position.aspx">Position</a></li>
-			</ul>
+			<h3>Utilities</h3>
+			<a href="position.aspx">Position</a>
+		</aside>
+		<aside id="info">
+			<a href="http://nuget.org/package/brew" class="nuget">nuget</a>
+			<a href="https://github.com/shellscape/Brew/wiki" class="wiki">wiki</a>
+			<a href="https://github.com/shellscape" class="source">source</a>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+				<input type="hidden" name="cmd" value="_s-xclick">
+				<input type="hidden" name="hosted_button_id" value="E25FXQG2GPCYY">
+			</form>
+			<a href="#" class="donate">donate</a>
+			<div class="theme">
+				<span>demos use the 'Start' theme available from</span>
+				<a href="http://jqueryui.com/themeroller/#themeGallery"><img src="http://jqueryui.com/resources/images/themeroller/logo_themeRoller_sml.gif" /></a>
+			</div>
+		</aside>
+		<form id="form" runat="server">
+			<section id="demo">
+				<asp:contentplaceholder id="content" runat="server" />
+			</section>
+		</form>
+	</div>
+  <footer>
+		<div>
+			<p>Detroit hustles harder</p>
+			<nav>
+				<a class="twitter" target="_blank" href="http://twitter.com/shellscape" title="Follow me on Twitter"></a>
+				<a class="github" target="_blank" href="http://github.com/shellscape" title="Fork me on Github"></a>
+			</nav>
 		</div>
-		<div style="display: inline-block; vertical-align: top;">
-			<h3>This is an ugly test site. Don't judge me, monkey.</h3>
-			<asp:contentplaceholder id="content" runat="server" />
-		</div>
-	</form>
+  </footer>
 
+	<script src="scripts/jquery-1.9.1.min.js"></script>
+  <script src="js/script.js"></script>
+
+  <script>
+    var _gaq=[['_setAccount','UA-78612-3'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
 </body>
 </html>

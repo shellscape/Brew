@@ -2,6 +2,8 @@
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
 
+	<h2 class="interaction">resizable</h2>
+
 	<div style="width: 600px;">
 
 		<style>
