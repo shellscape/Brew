@@ -11,7 +11,8 @@ If you happen across this repository and poke around in the source, it's importa
 
 ## Documentation
 
-A userguide and control documentation will be available shortly on the Wiki here on Github. A demo site is in development and will be hosted on shellscape.org.
+The demo site for Brew is located at http://shellscape.org/brew. 
+A Getting Started guide and documentation for Brew can be found on the [Wiki here on Github](https://github.com/shellscape/brew/wiki). 
 
 ## Getting Help
 
