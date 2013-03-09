@@ -1,4 +1,5 @@
-﻿(function ($) {
+﻿/*jshint evil:true */
+(function ($, window, Sys) {
 	'use strict';
 
 	var _old = $.fn.attr,
@@ -26,7 +27,7 @@
 		var options;
 
 		if (widgetName == "datepicker") {
-			options = $.datepicker._defaults
+			options = $.datepicker._defaults;
 		}
 		else {
 			options = $.ui[widgetName].prototype.options;
@@ -41,7 +42,7 @@
 		});
 
 		return data;
-	};
+	}
 
 	function ready() {
 
@@ -84,7 +85,7 @@
 		if (!$('#' + stateId).length) {
 			$('<input />', { type: 'hidden', id: stateId, name: stateId }).appendTo(window.theForm); // theForm is defined by asp.net
 		}
-	};
+	}
 
 	$(ready);
 	Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () { ready(); }); // handles adding the jquery ui css on partial postback, if it hasn't been already.
@@ -190,4 +191,4 @@
 	// The autocomplete widget accepts a string and string array. This is problematic as we can't represent both 
 
 
-})(jQuery);
+})(jQuery, window, Sys);
