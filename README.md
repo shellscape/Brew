@@ -46,7 +46,7 @@ When submitting please be as detailed as possible and include the following info
 **Why create Brew?**
 
 I had the pleasure to work on the original Juice UI project (check out the commit history) and while it was a great project, it was always limited in some aspects. 
-Brew will enjoy a fast and frequent release cycle. Brew is also a different direction for it's cousin project, and everything that had wanted to do with Juice. It's a significant departure and is unbound by the restrictions of it's cousin. 
+Brew will enjoy a fast and frequent release cycle. Brew is also a different direction for it's cousin project, and everything that I had wanted to do with Juice. It's a significant departure and is unbound by the restrictions of it's cousin. 
 
 **System Requirements**
 
