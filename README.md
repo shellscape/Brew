@@ -1,13 +1,19 @@
 Brew
 ====
 
-Brew is an open source library of interface components for ASP.NET which utilitizes jQuery and jQuery UI.
+Brew is an open source library of interface components for ASP.NET which utilizes jQuery and jQuery UI.
 
 If Brew looks familiar, that's for good reason. Brew is a heavily refactored fork of the Juice UI project.
 
-## Current State
+## What makes Brew different
 
-If you happen across this repository and poke around in the source, it's important to note that there is unstable development ongoing. The fork is not yet ready for public consumption due to the amount of refactorig taking place and testing yet to be completed.
+Creating a project that's just a copy of another would be silly. Brew stands out in a few ways from it's cousin.
+
+* Brew uses an unobtrusive, but speedy means to render widgets. That means no more huge blocks of javascript in the rendered page, and Brew doesn't litter your tags with extra attributes.
+* Brew's unobtrusive javascript runs quickly and is far less complex.
+* Brew's codebase is much smaller, making it easier to maintain and fix bugs faster.
+* Brew is a spartan release, no extra fluff or unnecessary extras.
+* Brew contains all of the as-yet unreleased bug fixes from the JuiceUI master repository.
 
 ## Documentation
 
