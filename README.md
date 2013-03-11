@@ -1,4 +1,4 @@
-Brew
+![Brew](http://shellscape.org/brew/nuget.png)
 ====
 
 Brew is an open source library of interface components for ASP.NET which utilizes jQuery and jQuery UI.
