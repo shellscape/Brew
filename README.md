@@ -27,7 +27,7 @@ A Getting Started guide and documentation for Brew can be found on the [Wiki her
 
 For bugs and unexpected problems using Brew, please file a new issue here on Github.
 
-For quick questions, please feel free to tweet [@shellscape](https://twitter.com/shellscape) and/or use the [#getbrew](https://twitter.com/search/realtime?q=%23getbrew&src=typd) hashtag. If you don't use the hashtag, I may not see your tweet!
+For quick questions, please feel free to tweet [@shellscape](https://twitter.com/shellscape) and/or use the [#brewdotnet](https://twitter.com/search/realtime?q=%23brewdotnet&src=typd) or [#getbrew](https://twitter.com/search/realtime?q=%23getbrew&src=typd) hashtag. If you don't use the hashtag, I may not see your tweet!
 
 ### Reporting Issues
 
