@@ -16,6 +16,8 @@ Creating a project that's just a copy of another would be silly. Brew stands out
 * Brew is a spartan release, no extra fluff or unnecessary extras.
 * Brew contains all of the as-yet unreleased bug fixes from the JuiceUI master repository.
 
+* Community interaction - This is a big one. If an issue, problem, pull request, etc. gets posted here, it's going to get looked into. 
+
 ## Documentation
 
 The demo site for Brew is located at http://shellscape.org/brew. 
@@ -44,7 +46,7 @@ When submitting please be as detailed as possible and include the following info
 **Why create Brew?**
 
 I had the pleasure to work on the original Juice UI project (check out the commit history) and while it was a great project, it was always limited in some aspects. 
-Brew will enjoy a fast and frequent release cycle, whereas Juice UI has a sllloooowwww release cycle. I'm also personally unbound by many of the aspects that prevented rapid, frequent development on JuiceUI, and the amount of attention to the community that a project should have.
+Brew will enjoy a fast and frequent release cycle. Brew is also a different direction for it's cousin project, and everything that had wanted to do with Juice. It's a significant departure and is unbound by the restrictions of it's cousin. 
 
 **System Requirements**
 
