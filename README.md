@@ -11,6 +11,7 @@ Creating a project that's just a copy of another would be silly. Brew stands out
 
 * Brew uses an unobtrusive, but speedy means to render widgets. That means no more huge blocks of javascript in the rendered page, and Brew doesn't litter your tags with extra attributes.
 * Brew's unobtrusive javascript runs quickly and is far less complex.
+* Brew's extenders and controls are simpler and more intuitive to use. 
 * Brew's codebase is much smaller, making it easier to maintain and fix bugs faster.
 * Brew is a spartan release, no extra fluff or unnecessary extras.
 * Brew contains all of the as-yet unreleased bug fixes from the JuiceUI master repository.
@@ -42,14 +43,8 @@ When submitting please be as detailed as possible and include the following info
 
 **Why create Brew?**
 
-I had the pleasure to work on the original Juice UI project (check out the commit history) and while it was a great project, it was always limited in some aspects. Below are the primary reasons I started the fork:
-
-Brew will enjoy a fast and frequent release cycle, whereas Juice UI has a sllloooowwww release cycle. 
-Brew isn't bound by a company development schedule or available development resources.
-Brew is much leaner than Juice UI.
-Brew's extenders and controls are simpler and more intuitive to use. 
-Brew doesn't ship with any unnecessary extras.
-Brew uses unobtrusive javascript and data attributes. 
+I had the pleasure to work on the original Juice UI project (check out the commit history) and while it was a great project, it was always limited in some aspects. 
+Brew will enjoy a fast and frequent release cycle, whereas Juice UI has a sllloooowwww release cycle. I'm also personally unbound by many of the aspects that prevented rapid, frequent development on JuiceUI, and the amount of attention to the community that a project should have.
 
 **System Requirements**
 
