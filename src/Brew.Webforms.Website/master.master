@@ -46,7 +46,7 @@
 		</aside>
 		<aside id="info">
 			<a href="." class="home"></a>
-			<a href="http://nuget.org/package/brew" class="nuget">nuget</a>
+			<a href="http://nuget.org/packages/brew" class="nuget">nuget</a>
 			<a href="https://github.com/shellscape/Brew/wiki" class="wiki">wiki</a>
 			<a href="https://github.com/shellscape/Brew" class="source">source</a>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
