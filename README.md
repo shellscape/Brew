@@ -1,13 +1,22 @@
-Brew
+![Brew](http://shellscape.org/brew/nuget.png)
 ====
 
-Brew is an open source library of interface components for ASP.NET which utilitizes jQuery and jQuery UI.
+Brew is an open source library of interface components for ASP.NET which utilizes jQuery and jQuery UI.
 
 If Brew looks familiar, that's for good reason. Brew is a heavily refactored fork of the Juice UI project.
 
-## Current State
+## What makes Brew different
 
-If you happen across this repository and poke around in the source, it's important to note that there is unstable development ongoing. The fork is not yet ready for public consumption due to the amount of refactorig taking place and testing yet to be completed.
+Creating a project that's just a copy of another would be silly. Brew stands out in a few ways from it's cousin.
+
+* Brew uses an unobtrusive, but speedy means to render widgets. That means no more huge blocks of javascript in the rendered page, and Brew doesn't litter your tags with extra attributes.
+* Brew's unobtrusive javascript runs quickly and is far less complex.
+* Brew's extenders and controls are simpler and more intuitive to use. 
+* Brew's codebase is much smaller, making it easier to maintain and fix bugs faster.
+* Brew is a spartan release, no extra fluff or unnecessary extras.
+* Brew contains all of the as-yet unreleased bug fixes from the JuiceUI master repository.
+
+* Community interaction - This is a big one. If an issue, problem, pull request, etc. gets posted here, it's going to get looked into. 
 
 ## Documentation
 
@@ -18,7 +27,7 @@ A Getting Started guide and documentation for Brew can be found on the [Wiki her
 
 For bugs and unexpected problems using Brew, please file a new issue here on Github.
 
-For quick questions, please feel free to tweet @shellscape using the #Brew hashtag. If you don't use the hashtag, I may not see your tweet!
+For quick questions, please feel free to tweet [@shellscape](https://twitter.com/shellscape) and/or use the [#brewdotnet](https://twitter.com/search/realtime?q=%23brewdotnet&src=typd) or [#getbrew](https://twitter.com/search/realtime?q=%23getbrew&src=typd) hashtag. If you don't use the hashtag, I may not see your tweet!
 
 ### Reporting Issues
 
@@ -36,14 +45,8 @@ When submitting please be as detailed as possible and include the following info
 
 **Why create Brew?**
 
-I had the pleasure to work on the original Juice UI project (check out the commit history) and while it was a great project, it was always limited in some aspects. Below are the primary reasons I started the fork:
-
-Brew will enjoy a fast and frequent release cycle, whereas Juice UI has a sllloooowwww release cycle. 
-Brew isn't bound by a company development schedule or available development resources.
-Brew is much leaner than Juice UI.
-Brew's extenders and controls are simpler and more intuitive to use. 
-Brew doesn't ship with any unnecessary extras.
-Brew uses unobtrusive javascript and data attributes. 
+I had the pleasure to work on the original Juice UI project (check out the commit history) and while it was a great project, it was always limited in some aspects. 
+Brew will enjoy a fast and frequent release cycle. Brew is also a different direction for it's cousin project, and everything that I had wanted to do with Juice. It's a significant departure and is unbound by the restrictions of it's cousin. 
 
 **System Requirements**
 
