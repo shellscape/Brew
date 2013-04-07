@@ -37,5 +37,18 @@ namespace Brew.Webforms {
 			}
 		}
 
+		public static T FindParent<T>(this System.Web.UI.Control target) where T : System.Web.UI.Control {
+			if (target.Parent == null) {
+				return null;
+			}
+
+			var parent = target.Parent as T;
+			if (parent != null) {
+				return parent;
+			}
+
+			return target.Parent.FindParent<T>();
+		}
+
 	}
 }

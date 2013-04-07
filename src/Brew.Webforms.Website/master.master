@@ -60,6 +60,7 @@
 			</div>
 		</aside>
 		<form id="form" runat="server">
+			<asp:scriptmanager runat="server"/>
 			<section id="demo">
 				<div class="output">
 					<asp:contentplaceholder id="content" runat="server" />
@@ -67,7 +68,10 @@
 				<asp:placeholder id="_source" runat="server">
 				<div class="source">
 					<h3>source</h3>
-					<pre><code class="language-markup" data-linenumber><asp:literal id="source" runat="server" /></code></pre>
+					<pre><code class="language-markup"><asp:literal id="source" runat="server" /></code></pre>
+				</div>
+				<div class="desc">
+				<asp:literal id="_desc" runat="server" />
 				</div>
 				</asp:placeholder>
 			</section>

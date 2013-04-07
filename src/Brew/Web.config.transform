@@ -1,10 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-  <system.web>
-    <pages>
-      <controls>
-        <add assembly="Brew.Webforms" namespace="Brew.Webforms.Widgets" tagPrefix="brew" />
-      </controls>
-    </pages>
-  </system.web>
+	<system.web>
+		<pages>
+			<controls>
+				<add assembly="Brew.Webforms" namespace="Brew.Webforms.Widgets" tagPrefix="brew" />
+			</controls>
+		</pages>
+		<httpModules>
+			<!--<add name="EventHookModule" type="Brew.Webforms.EventHookModule, Brew.Webforms" />-->
+		</httpModules>
+	</system.web>
+	<system.webServer>
+		<modules>
+			<add name="EventHookModule" type="Brew.Webforms.EventHookModule, Brew.Webforms" preCondition="managedHandler"/>
+		</modules>
+	</system.webServer>
 </configuration>

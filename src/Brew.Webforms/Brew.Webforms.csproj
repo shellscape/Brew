@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventHookModule.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IWidget.cs" />
     <Compile Include="TypeConverters\AutocompleteListConverter.cs" />

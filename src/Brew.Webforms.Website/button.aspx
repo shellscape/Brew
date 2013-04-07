@@ -1,4 +1,5 @@
 ﻿<%@ page title="" language="C#" masterpagefile="~/Master.master" autoeventwireup="true" codefile="button.aspx.cs" inherits="button" %>
+
 <asp:content id="content" contentplaceholderid="content" runat="Server">
 
 	<h2 class="control">button</h2>

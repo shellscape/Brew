@@ -38,5 +38,9 @@ public partial class Master : System.Web.UI.MasterPage {
 		content = Server.HtmlEncode(content);
 
 		source.Text = content;
+
+		var desc = XmlDoc.GetDescription(Request.Path);
+		_desc.Text = desc;
+
 	}
 }

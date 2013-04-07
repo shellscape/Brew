@@ -2,9 +2,14 @@
 
 <asp:content id="content" contentplaceholderid="content" runat="Server">
 
+	<style>
+		.ui-menu { width: 150px; }
+		.output > div { width: 600px; }
+  </style>
+
 	<h2 class="control">menu</h2>
 
-	<div style="width: 600px;">
+	<div>
 
 		<brew:menu runat="server">
 			<brew:menuitem cssclass="ui-state-disabled"><a href="#">Aberdeen</a></brew:menuitem>

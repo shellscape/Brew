@@ -35,8 +35,8 @@ namespace Brew.Webforms {
 			}
 		}
 
-		private static void LoadHandler(object sender, EventArgs ea) {
-			var page = sender as Page;
+		internal static void LoadHandler(object sender, EventArgs ea) {
+			var page = sender is Page ? sender as Page : (sender as Control).Page;
 			var brew = page.FindControl("__brew");
 
 			if (brew == null) {
@@ -62,8 +62,16 @@ namespace Brew.Webforms {
 				throw new InvalidOperationException("Brew Error: The page cannot be null.");
 			}
 
-			this.Page.Load -= Widget.LoadHandler;
-			this.Page.Load += Widget.LoadHandler;
+			var formView = this.FindParent<FormView>();
+
+			if (formView != null) {
+				//formView.ItemCreated -= Widget.LoadHandler;
+				//formView.ItemCreated += Widget.LoadHandler;
+			}
+			else {
+				this.Page.Load -= Widget.LoadHandler;
+				this.Page.Load += Widget.LoadHandler;
+			}
 
 			base.OnInit(e);
 		}
@@ -99,6 +107,10 @@ namespace Brew.Webforms {
 			var widget = new HtmlGenericControl("widget") { ClientIDMode = ClientIDMode.Static };
 			var options = ParseOptions();
 			var events = ParseEvents();
+
+			if (brew == null) {
+				throw new ArgumentException("Brew Error: The __brew control was not found on the page or is not accessible.", "brew");
+			}
 
 			widget.Attributes.Add("id", this.ClientID);
 			widget.Attributes.Add("name", this.Name);

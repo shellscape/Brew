@@ -87,12 +87,18 @@ section h2 { color: #98B232; position: relative; font-size: 4em; text-transform:
 section h2 span { color: #fff; opacity: 0.5; position: absolute; top: 10px; right: 0; margin: 0; font-size: 0.8em; text-transform: uppercase; font-family: OpenSansLight, Segoe UI, Myriad Pro, Arial, Helvetica; }
 
 /*#demo { padding: 10px; }*/
-#demo .ui-widget { margin: 20px; }
+#demo .output > .ui-widget { margin: 20px; margin-left: 0; margin-top: 0; }
+#demo .ui-tabs { margin-bottom: 20px; max-width: 600px; }
 #demo .output { overflow: auto; height: auto; }
-#demo pre { position: relative; max-height: 500px; overflow: auto; border: 10px solid #555; border-top: none; margin-top: 0; }
+#demo pre { position: relative; max-height: 500px; overflow: auto; border: 10px solid #555; border-top: none; margin-top: 0; background: #f5f2f0; padding-left: 1em; }
 #demo pre span.line { height: 18px; }
 #demo pre span.line:before { width: 1em; height: 18px; }
 #demo .source h3 { border: 10px solid #555; border-bottom: none; background: #fff; color: #555; font-size: 1.5em; font-family: OpenSansBold, Segoe UI, Myriad Pro, Arial, Helvetica; margin-bottom: 0; padding: 8px 10px; }
+#demo .desc { line-height: 1.75; font-size: 14px; background: #191919; padding: 1.5em 1em 1em; position: relative; top: -8px; z-index: 2; -moz-box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.50); -webkit-box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.50); box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.50); }
+#demo .desc p { }
+#demo .desc ul { }
+#demo .desc li { }
+#demo .desc h3 { }
 
 aside { position: absolute; padding: 0px 20px; z-index: 9; }
 aside a, aside h3 { display: block; padding: 0px 0 10px 0; text-transform: lowercase; font-size: 3.0em; }
