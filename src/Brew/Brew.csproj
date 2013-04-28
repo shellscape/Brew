@@ -131,7 +131,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="brew.snk" />
-    <Content Include="Web.config.transform" />
+    <Content Include="Web.config.transform">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

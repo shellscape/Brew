@@ -15,25 +15,25 @@ namespace Brew {
 
 		public static void Start() {
 
-			ScriptManager.ScriptResourceMapping.AddDefinition("jquery",
-					new ScriptResourceDefinition {
-						Path = "~/Scripts/jquery-1.9.1.min.js",
-						DebugPath = "~/Scripts/jquery-1.9.1.js",
-						CdnPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js",
-						CdnDebugPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js",
-						CdnSupportsSecureConnection = true
-					}
-			);
+			//ScriptManager.ScriptResourceMapping.AddDefinition("jquery",
+			//		new ScriptResourceDefinition {
+			//			Path = "~/Scripts/jquery-1.9.1.min.js",
+			//			DebugPath = "~/Scripts/jquery-1.9.1.js",
+			//			CdnPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js",
+			//			CdnDebugPath = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js",
+			//			CdnSupportsSecureConnection = true
+			//		}
+			//);
 
-			ScriptManager.ScriptResourceMapping.AddDefinition("jquery-ui",
-					new ScriptResourceDefinition {
-						Path = "~/Scripts/jquery-ui-1.10.1.min.js",
-						DebugPath = "~/Scripts/jquery-ui-1.10.1.js",
-						CdnPath = "http://code.jquery.com/ui/1.10.1/jquery-ui.min.js",
-						CdnDebugPath = "http://code.jquery.com/ui/1.10.1/jquery-ui.js",
-						CdnSupportsSecureConnection = true
-					}
-			);
+			//ScriptManager.ScriptResourceMapping.AddDefinition("jquery-ui",
+			//		new ScriptResourceDefinition {
+			//			Path = "~/Scripts/jquery-ui-1.10.1.min.js",
+			//			DebugPath = "~/Scripts/jquery-ui-1.10.1.js",
+			//			CdnPath = "http://code.jquery.com/ui/1.10.1/jquery-ui.min.js",
+			//			CdnDebugPath = "http://code.jquery.com/ui/1.10.1/jquery-ui.js",
+			//			CdnSupportsSecureConnection = true
+			//		}
+			//);
 
 			ScriptManager.ScriptResourceMapping.AddDefinition("brew",
 					new ScriptResourceDefinition {
@@ -45,8 +45,8 @@ namespace Brew {
 
 		public static IEnumerable<ScriptReference> GetReferences() {
 			return new List<ScriptReference> {
-				new ScriptReference("jquery", null),
-				new ScriptReference("jquery-ui", null),
+				new ScriptReference("jquery", null), // AspNet.ScriptManager.jQuery
+				new ScriptReference("jquery.ui.combined", null), // AspNet.ScriptManager.jQuery.UI.Combined < that's silly long
 				new ScriptReference("brew", null)
 			};
 		}

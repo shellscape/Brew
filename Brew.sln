@@ -5,7 +5,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brew", "src\Brew\Brew.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brew.Webforms", "src\Brew.Webforms\Brew.Webforms.csproj", "{63B71756-8B0D-4098-80FE-4FFC145EE065}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Brew.Webforms.Website", "http://localhost:18275", "{801B13D4-65FC-42C7-8341-429AE937AC0B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{111F9B96-5F86-4BE3-9261-76815C673198}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\nuget.cmd = .nuget\nuget.cmd
+		.nuget\nuget.proj = .nuget\nuget.proj
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5391D98A-8663-483D-B828-9AE4ADA8421B}"
+	ProjectSection(SolutionItems) = preProject
+		build\build.cmd = build\build.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grunt", "grunt", "{2F3576F6-9BBF-4E6C-AF8D-05AC4F80E568}"
+	ProjectSection(SolutionItems) = preProject
+		grunt\Gruntfile.js = grunt\Gruntfile.js
+		grunt\package.json = grunt\package.json
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Brew.Webforms.Website", "http://localhost:3377", "{801B13D4-65FC-42C7-8341-429AE937AC0B}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
@@ -26,23 +43,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Brew.Webforms.Website", "ht
 		Release.AspNetCompiler.Debug = "False"
 		SlnRelativePath = "src\Brew.Webforms.Website\"
 		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{111F9B96-5F86-4BE3-9261-76815C673198}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\nuget.cmd = .nuget\nuget.cmd
-		.nuget\nuget.proj = .nuget\nuget.proj
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5391D98A-8663-483D-B828-9AE4ADA8421B}"
-	ProjectSection(SolutionItems) = preProject
-		build\build.cmd = build\build.cmd
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grunt", "grunt", "{2F3576F6-9BBF-4E6C-AF8D-05AC4F80E568}"
-	ProjectSection(SolutionItems) = preProject
-		grunt\Gruntfile.js = grunt\Gruntfile.js
-		grunt\package.json = grunt\package.json
 	EndProjectSection
 EndProject
 Global
