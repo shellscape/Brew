@@ -25,6 +25,7 @@
 	• Added AspNet.ScriptManager.jQuery dep. (requested)
 	• Added AspNet.ScriptManager.jQueryUI.Combined dep. (requested)
 	• Fixed issue with controls in FormView and Template controls.
+	• Signing Brew.Webforms.dll.
 		]]>
 		</releaseNotes>
 		<dependencies>

@@ -12,9 +12,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<MajorVersion>1</MajorVersion>
-		<MinorVersion>0</MinorVersion>
-		<Version>$(MajorVersion).$(MinorVersion)</Version>
+		<Version>1.0.1</Version>
 		<BuildPackage>true</BuildPackage>
 	</PropertyGroup>
 
